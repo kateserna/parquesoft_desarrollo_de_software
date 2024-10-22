@@ -1,0 +1,74 @@
+.fade-in{
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    /*animation: fadeIn 2s forwards;*/
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    } to {
+        opacity: 1;
+    }
+}
+
+.rotate {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    position: relative;
+    animation-name: rotate;
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    } to {
+        transform: rotate(360deg);
+    }
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.typewriter h1 {
+    overflow: hidden;
+    border-right: 0.15em solid orange;
+    white-space: nowrap;
+    margin: auto;
+    letter-spacing: 0.12em;
+    animation: typing 3.5s steps(40,end), blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    } to {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    from, to {
+        border-color: transparent;
+    } 50% {
+        border-color: orange;
+    }
+}
+
+.rotate-center{animation:rotate-center .6s ease-in-out both}
+
+@keyframes rotate-center{
+        0%{transform:rotate(0);
+    }100%{
+        transform:rotate(360deg);
+    }
+}

@@ -1,0 +1,91 @@
+@media screen and (max-width: 768px) {
+    /* Navbar */
+    .nav-container {
+      margin: auto;
+      max-width: 1100px;
+      overflow: auto;
+      padding: 0px;
+    }
+  
+    .navbar {
+      position: relative;
+      top: 0;
+    }
+  
+    .navbar .logo {
+      float: none;
+      text-align: center;
+    }
+  
+    .navbar ul,
+    .navbar ul li {
+      float: none;
+    }
+  
+    .navbar ul li a {
+      padding: 5px;
+    }
+  
+    /* Section title */
+    .section-header {
+      font-size: 2em;
+    }
+  
+    .banner-title {
+      font-size: 2em;
+    }
+  
+    /* Banner */
+    .banner-header-text {
+      width: 80%;
+    }
+  
+    /* Portfolio */
+    .portfolio .portfolio-nav {
+      display: none;
+    }
+  
+    .card-projects {
+      display: grid; /* Define el contenedor como una cuadrícula */
+      grid-template-columns: repeat(1, 1fr); /* 1 columnas de igual tamaño */
+      gap: 20px; /* Espacio de 20px entre filas y columnas */
+    }
+  
+    /* Contact */
+    .card-info {
+      display: grid; /* Define el contenedor como una cuadrícula */
+      grid-template-columns: repeat(1, 1fr); /* 1 columnas de igual tamaño */
+  
+      text-align: center;
+    }
+  
+    .form-map {
+      margin: 30px;
+      display: grid; /* Define el contenedor como una cuadrícula */
+      grid-template-columns: repeat(1, 1fr); /* 2 columnas de igual tamaño */
+      gap: 20px;
+    }
+  
+    /* Single Project */
+    .single-project .description h4 {
+      font-size: 1em;
+    }
+  
+    .single-project-info {
+      grid-template-rows: auto auto auto; /* Cambia a tres filas iguales en dispositivos pequeños */
+      grid-template-columns: 1fr;
+    }
+  
+    .single-project-details {
+      text-align: center;
+    }
+  
+    /* About */
+    .skills {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .about iframe {
+      width: 100%;
+    }
+  }

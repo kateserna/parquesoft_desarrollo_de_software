@@ -1,0 +1,25 @@
+package Taller1;
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Cálculo del promedio de tres números:");
+        System.out.println("Digite el primer número:");
+        double num1 = scanner.nextDouble();
+
+        System.out.println("Digite el segundo número:");
+        double num2 = scanner.nextDouble();
+
+        System.out.println("Digite el tercer número:");
+        double num3 = scanner.nextDouble();
+
+        double promedio = (num1 + num2 + num3)/3;
+        System.out.println("El promedio es: "+promedio);
+
+        scanner.close();
+    }
+}

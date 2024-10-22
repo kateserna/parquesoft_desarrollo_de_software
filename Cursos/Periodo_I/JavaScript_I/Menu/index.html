@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Ejercicio menú</h1>
+
+    <form>
+        <select id="menu">
+            <option selected disabled hidden>Selecciona una opcion del menú</option> <!-- atributos selected: es el elemento que tengo seleccionado, disabled para que no pueda selleccionar el texto que estoy agregando ahi y hidden para quitarlo del menu para que sea informativo mas no sea una opcion. -->
+            <option value="1">Helado</option>
+            <option value="2">Hamburguesa</option>
+            <option value="3">Perro Caliente</option>
+            <option value="4">Ensalada</option>
+        </select>
+
+        <button id="btn" class="btn">Ver pr ecio</button>
+    </form>
+
+    <!--Div vacio para que al seleccionar el menu cree una pequeña tarjeta con el producto seleccionado con la imagen, nombre y precio usando js-->
+    <div class="card" id="item"></div>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
