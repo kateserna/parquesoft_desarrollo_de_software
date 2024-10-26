@@ -5,7 +5,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-
 //Midleware
 app.use(express.json()); // permite usar middleware para que la aplicacion sepa que todo lo q va a compartir y tanto al recibir o enviar va a ser en formato json
 app.use(cors());// para manejar origenes cruzados. 
@@ -20,10 +19,29 @@ try {
     console.error("Error de conexion", error) 
 }
 
-/*// ruta para mostrar listado de libros
-app.get("/libros", (req, res) =>{
-    res.json(libros)
-});*/
+// esquema o estructura de los documentos de la coleccion de mongoose (el id se genera directamente en mongo)
+const libroSchema = new mongoose.Schema({
+    titulo: String,
+    autor: String,
+});
+
+//Crear un modelo para realizar las operaciones de CRUD
+const Libro = mongoose.model("Libro", libroSchema);
+
+//Rutas de la API
+//Ruta para crear un nuevo libro: post (porque vamos a necesitar datos)
+app.post("libros", async(req, res)=>{
+    const libro = new Libro({
+        titulo: req.body.titulo,
+        autor: req.body.autor, 
+    })
+
+    try {
+        
+    } catch (error) {
+        
+    }
+})
 
 // Crear el servidor
 app.listen(3000, () => {
