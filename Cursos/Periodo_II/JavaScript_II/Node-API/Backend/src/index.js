@@ -104,6 +104,20 @@ app.put("/libros/:id", async (req, res) =>{
 });
 
 //Ruta de eliminar un libro:
+app.delete("/libros/:id", async (req, res) =>{
+    try {
+        const id = req.params.id;
+        const libro = await Libro.findByIdAndDelete(id);
+
+        if(libro) {
+            res.json(libro);
+        } else {
+            res.status(404).send("Libro no encontrado");
+        }
+    } catch (error) {
+        res.status(500).send("Error al borrar el libro");
+    }
+});
 
 // Crear el servidor
 app.listen(3000, () => {
