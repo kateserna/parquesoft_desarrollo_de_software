@@ -14,7 +14,7 @@ let librosData = [];
 
 async function fetchLibros() {
     const response = await fetch(`${baseURL}/libros`);
-    librosData = await response.json();//pasa la respuesta de json a un arreglo que es un formato que poemos manejar 
+    librosData = await response.json();//pasa la respuesta de json a un arreglo que es un formato que podemos manejar 
     librosTableBody.innerHTML = "";
     
     librosData.forEach((libro) => {
@@ -31,41 +31,47 @@ async function fetchLibros() {
     });
 }
 
-async function createLibro() { // validar que tenga un valor el form
+async function createLibro() { 
     const titulo = libroTitleInput.value;
     const autor = libroAutorInput.value;
     const libro = {titulo, autor};
-
-    await fetch(`${baseURL}/libros`, {
-        method: "POST", 
-        headers: {"Authorization": "miTokenSecreto123",
-        "Content-Type": "application/json"
-        },
-        body: JSON.stringify(libro), //pasa los datos  del libro a formato json 
-    })
-    
-    libroForm.reset();
-    fetchLibros();
+    if(titulo && autor){
+        await fetch(`${baseURL}/libros`, {
+            method: "POST", 
+            headers: {"Authorization": "miTokenSecreto123",
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify(libro), //pasa los datos  del libro a formato json 
+        })
+        
+        libroForm.reset();
+        fetchLibros();
+    } else {
+        alert("Porfavor escriba los datos del libro y del autor.")
+    }  
 }
 
-async function updateLibro() { // validar que tenga titulo y autor
+async function updateLibro() {
     const id = libroIdInput.value;
     const titulo = libroTitleInput.value;
     const autor = libroAutorInput.value;
     const libro = { titulo, autor };
-
-    await fetch(`${baseURL}/libros/${id}`, {
-        method: "PUT",
-        headers: {Authorization: "miTokenSecreto123",
-        "Content-Type": "application/json"},
-        body: JSON.stringify(libro),
-    });
-
-    libroForm.reset();
-    libroIdInput.value = "";
-    saveBtn.style.display = "inline-block";
-    updateBtn.style.display = "none";
-    fetchLibros();
+    if(titulo && autor){
+        await fetch(`${baseURL}/libros/${id}`, {
+            method: "PUT",
+            headers: {Authorization: "miTokenSecreto123",
+            "Content-Type": "application/json"},
+            body: JSON.stringify(libro),
+        });
+    
+        libroForm.reset();
+        libroIdInput.value = "";
+        saveBtn.style.display = "inline-block";
+        updateBtn.style.display = "none";
+        fetchLibros();
+    }  else {
+        alert("Porfavor escriba los datos del libro y del autor.")
+    }
 }
 
 function editarLibro(id) {
@@ -76,6 +82,16 @@ function editarLibro(id) {
 
     saveBtn.style.display = "none";
     updateBtn.style.display = "inline-block";
+}
+
+async function eliminarLibro(id) {
+   if(confirm("Desea eliminar este libro?")) {
+    await fetch(`${baseURL}/libros/${id}`,{
+        method: "DELETE",
+        headers: {Authorization: "miTokenSecreto123",}
+    });
+    fetchLibros();
+   } 
 }
 
 updateBtn.addEventListener("click", updateLibro);
