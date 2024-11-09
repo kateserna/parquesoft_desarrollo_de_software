@@ -1,7 +1,7 @@
 CREATE TABLE CreditCard (
     id serial PRIMARY KEY,
     card_number VARCHAR(16) NOT NULL,
-    expiration_date DATE NOT NULL,
+    expiration_date VARCHAR(10) NOT NULL,
     cvv VARCHAR(3) NOT NULL  
 );
 
