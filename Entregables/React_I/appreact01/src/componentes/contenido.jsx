@@ -8,5 +8,5 @@ export default function Contenido({saludo, contenido, usuario}) {
             <p>{contenido}</p>
             <Avatar usuario={usuario}/>
         </div>
-    )    
+    );    
 }

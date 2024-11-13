@@ -3,5 +3,5 @@ export default function Encabezado(){
         <div>
             <h1>Encabezado</h1>
         </div>
-    )
+    );
 }
