@@ -1,0 +1,58 @@
+//importaciones:
+import * as React from 'react';
+import Box from '@mui/material/Box'; //caja sobre la que se dibuja el modal
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import { Link } from 'react-router-dom';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+export default function BasicModal() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  return (
+    <div>
+      <Button onClick={handleOpen}>Abrir modal</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Titulo del modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          Lorem ipsum dolor sit amet consectetur adipiscing elit, est facilisi 
+          vivamus magna potenti malesuada, feugiat etiam aliquam tincidunt 
+          tempus quam. Nulla ornare blandit volutpat leo interdum aliquet 
+          parturient porttitor, eu velit taciti bibendum fames diam dignissim 
+          himenaeos, magna proin ut urna cum quam dapibus. Inceptos duis 
+          fermentum sollicitudin ultrices rutrum congue nullam fringilla, 
+          leo aptent scelerisque mus praesent hendrerit eget volutpat, 
+          lacinia vel dui class posuere tempus curabitur. Ullamcorper 
+          scelerisque vitae fermentum parturient id rutrum nulla luctus 
+          ligula laoreet porttitor, tristique sociis libero mollis diam habitant
+           commodo platea mi nostra, nullam dui massa velit etiam tellus ornare 
+           pharetra fusce integer.
+          </Typography>
+        </Box>
+      </Modal>
+      <Link to="/">Inicio</Link>
+    </div>
+  );
+}
