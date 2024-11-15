@@ -24,6 +24,6 @@ public class SimulationRestController {
 
     @GetMapping()
     public ResponseEntity<String> getCard(){
-        return ResponseEntity.ok("Hola mundo");
+        return null;
     }
 }
