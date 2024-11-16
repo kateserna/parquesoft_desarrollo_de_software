@@ -5,13 +5,9 @@ import com.parquesoftti.tc.repository.CreditCardRepository;
 import com.parquesoftti.tc.service.CreditCardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +18,6 @@ public class   CreditCardServiceImpl implements CreditCardService {
 
     private final CreditCardRepository creditCardRepository;
 
-
     //Conecta a la base y trae todas las tarjetas de credito
     @Override
     @Transactional(readOnly = true)
@@ -30,17 +25,38 @@ public class   CreditCardServiceImpl implements CreditCardService {
         return creditCardRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<CreditCard> getCardById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("El Id debe ser positivo y no nulo.");
+        }
         return creditCardRepository.findById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public CreditCard getCreditCardsByCardNumber(String cardNumber) {
+
+        var tmp = creditCardRepository.findCreditCardByCardNumber(cardNumber);
+
+        if (tmp.isPresent()) {
+            return tmp.get();
+        } else {
+            throw new IllegalArgumentException("El número de tarjeta de crédito no existe.");
+        }
+
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    @Override
     public CreditCard saveCreditCard(CreditCard creditCard) {
+        validateCreditCard(creditCard);
         return creditCardRepository.save(creditCard);
     }
 
     //Validar que exista la tarjeta de credito
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public CreditCard updateCreditCard(CreditCard creditCard, Long id) {
         //validar que envien el id
@@ -56,13 +72,45 @@ public class   CreditCardServiceImpl implements CreditCardService {
         }
         //se actualiza
         creditCard.setId(id);
+        validateCreditCard(creditCard);
         return creditCardRepository.save(creditCard);
     }
 
+    @Transactional(readOnly = false, rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public void deleteCard(Long id) {
         creditCardRepository.deleteById(id);
     }
 
+    /*
+    * Valida los datos básicos de una tarjeta de crédito.
+    *
+    * @param creditCard La tarjeta de crédito a validar
+    */
+
+    private void validateCreditCard(CreditCard creditCard) {
+        if (creditCard == null) {
+            throw new IllegalArgumentException("La tarjeta de crédito no debe ser nula.");
+        }
+
+        if (creditCard.getCardNumber() == null || creditCard.getCardNumber().isEmpty()) {
+            throw new IllegalArgumentException("El número de la tarjeta no debe estar vacío.");
+        }
+
+        if (creditCard.getCardNumber().length() != 16) {
+            throw new IllegalArgumentException("El número de la tarjeta debe tener 16 dígitos numéricos.");
+        }
+
+        if (creditCard.getExpirationDate() == null ) {
+            throw new IllegalArgumentException("La fecha de vencimiento no debe ser nula.");
+        }
+
+        if (creditCard.getCvv() == null ) {
+            throw new IllegalArgumentException("El CVV no debe ser nulo");
+        }
+
+    }
 
 }
+
+

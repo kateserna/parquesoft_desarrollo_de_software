@@ -35,7 +35,7 @@ public class CreditCardController {
         return ResponseEntity.ok().body(creditCardService.saveCreditCard(creditCard));
     }
 
-    @PutMapping()
+    @PutMapping("/{id}")
     public ResponseEntity<CreditCard> updateCreditCard(@RequestBody CreditCard creditCard, @PathVariable  Long id){
         return ResponseEntity.ok().body(creditCardService. updateCreditCard(creditCard, id));
     }
@@ -45,5 +45,12 @@ public class CreditCardController {
         creditCardService.deleteCard(id);
         return ResponseEntity.ok().body("");
     }
+
+    //Busqueda por el número de la tarjeta
+    @GetMapping("/cardnumber/{creditcard}")
+    public ResponseEntity<CreditCard> getCreditCardsByCardNumber(@PathVariable  String creditcard){
+        return ResponseEntity.ok().body(creditCardService.getCreditCardsByCardNumber(creditcard));
+    }
+
 }
 
