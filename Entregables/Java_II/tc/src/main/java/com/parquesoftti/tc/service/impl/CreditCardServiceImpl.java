@@ -60,22 +60,36 @@ public class   CreditCardServiceImpl implements CreditCardService {
     @Override
     public CreditCard updateCreditCard(CreditCard creditCard, Long id) {
         //validar que envien el id
-        if (id == null || id == 0) {
-            throw new RuntimeException("No me enviaron el id");
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("El Id debe ser positivo y no nulo.");
         }
 
         //Consulta si existe en la bd
-        Optional<CreditCard> tmp = getCardById(id);
+        Optional<CreditCard> existingCard = getCardById(id);
         //diferente a null
-        if (tmp.get()==null){
-            throw new RuntimeException("No se encontro en la base de datos");
+        if (existingCard.isEmpty()){
+            throw new RuntimeException("No se encontro la tarjeta de crédito en la base de datos");
         }
-        //se actualiza
-        creditCard.setId(id);
-        validateCreditCard(creditCard);
-        return creditCardRepository.save(creditCard);
+        //guardar los datos que cambian y si no lo envia el dato queda cn el que ya tenia
+        var tmp = existingCard.get();
+
+        if (creditCard.getCardNumber() != null) {
+            tmp.setCardNumber(creditCard.getCardNumber());
+        }
+
+        if (creditCard.getCvv() != null) {
+            tmp.setCardNumber(creditCard.getCvv());
+        }
+
+        if (creditCard.getExpirationDate() != null) {
+            tmp.setCardNumber(creditCard.getExpirationDate());
+        }
+
+        //se actualizan los datos
+        return creditCardRepository.save(tmp);
     }
 
+    //revisar este codigo de delete
     @Transactional(readOnly = false, rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public void deleteCard(Long id) {
