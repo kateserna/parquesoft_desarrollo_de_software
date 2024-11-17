@@ -4,7 +4,6 @@ import com.parquesoftti.tc.model.CreditCard;
 import com.parquesoftti.tc.repository.CreditCardRepository;
 import com.parquesoftti.tc.service.CreditCardService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -13,10 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
-public class   CreditCardServiceImpl implements CreditCardService {
+public class CreditCardServiceImpl implements CreditCardService {
 
     private final CreditCardRepository creditCardRepository;
 
@@ -95,6 +93,14 @@ public class   CreditCardServiceImpl implements CreditCardService {
     @Transactional(readOnly = false, rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public void deleteCard(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("El Id debe ser positivo y no nulo.");
+        }
+
+        Optional<CreditCard> existingCard = getCardById(id);
+        if (existingCard.isEmpty()) {
+            throw new RuntimeException("La tarjeta de crédito no existe y no se puede eliminar.");
+        }
         creditCardRepository.deleteById(id);
     }
 
@@ -128,5 +134,3 @@ public class   CreditCardServiceImpl implements CreditCardService {
     }
 
 }
-
-
