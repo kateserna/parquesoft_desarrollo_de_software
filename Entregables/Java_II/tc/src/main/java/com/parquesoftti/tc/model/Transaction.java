@@ -3,7 +3,6 @@ package com.parquesoftti.tc.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "transaction")
+@Table(name = "transaction", schema = "public")
 public class Transaction {
 
     @Id
