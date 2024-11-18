@@ -32,5 +32,4 @@ public class Transaction {
     @JoinColumn(name = "credit_card_id")
     private CreditCard creditCard;
 
-
 }

@@ -19,13 +19,15 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional(readOnly = false, rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public Transaction payment(Transaction transaction) {
-        creditCardServiceImpl.getCreditCardsByCardNumber(transaction.getCreditCard().getCardNumber());
+        var tmp = creditCardServiceImpl.getCreditCardsByCardNumber(transaction.getCreditCard().getCardNumber());
+        transaction.getCreditCard().setId(tmp.getId());
         return transactionRepository.save(transaction);
     }
 
     @Transactional(readOnly = false, rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public void deleteCard(Long id) {
+
         transactionRepository.deleteById(id);
     }
 
