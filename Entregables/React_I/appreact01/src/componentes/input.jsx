@@ -1,7 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Input(){
+
+    useEffect( () => {
+        console.log("Componente Input montado correctamente")
+    
+        return () =>{
+          console.log("Componente Input desmontado correctamente.")
+        }
+    
+      }, [])
+
     const [mensaje, setMensaje] = useState("");
     const [contador, setContador] = useState(0);
     const handleClick = () => {

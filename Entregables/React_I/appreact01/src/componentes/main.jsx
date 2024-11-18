@@ -2,6 +2,7 @@ import Encabezado from './encabezado';
 import Contenido from './contenido';
 import Footer from './pieDePagina';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const user = {
   name: 'Hedy Lamarr',
@@ -10,6 +11,15 @@ const user = {
 };
 
 function Main() {
+  useEffect( () => {
+    console.log("Componente Main montado correctamente")
+
+    return () =>{
+      console.log("Componente Main desmontado correctamente.")
+    }
+
+  }, [])
+  
   return (
     <>
       <Encabezado/>
