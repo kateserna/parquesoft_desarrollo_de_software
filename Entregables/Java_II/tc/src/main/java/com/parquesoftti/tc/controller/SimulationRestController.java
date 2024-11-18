@@ -20,9 +20,10 @@ public class SimulationRestController {
 
     }
 
-    @DeleteMapping()
-    public ResponseEntity<String> reversePayment(){
-        return null;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> reversePayment(@PathVariable Long id){
+        transactionService.reversePayment(id);
+        return ResponseEntity.ok().body("");
     }
 
 }

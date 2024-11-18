@@ -10,5 +10,5 @@ public interface TransactionService {
     Transaction payment(Transaction transaction);
 
     @Transactional(readOnly = false, rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    void deleteCard(Long id);
+    void reversePayment(Long id);
 }
