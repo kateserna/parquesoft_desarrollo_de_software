@@ -6,6 +6,7 @@ import {
 import Main from "./componentes/main";
 import Input from "./componentes/input";
 import BasicModal from "./componentes/modal";
+import RickAndMorty from "./componentes/rick-and-morty";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element = { <Main/> }/>
           <Route path="/input" element = {<Input/>} />
           <Route path="/modal" element = {<BasicModal/>} />
+          <Route path="/rym" element = {<RickAndMorty/>} />
         </Routes>
       </Router>
   );

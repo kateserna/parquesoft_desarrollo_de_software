@@ -33,6 +33,7 @@ function Main() {
           <li><Link to="/">Inicio</Link></li>
           <li><Link to="/input">Ejemplo Input</Link></li>
           <li><Link to="/modal">Ejemplo de modal</Link></li>
+          <li><Link to="/rym">Listado de personajes</Link></li>
         </ul>
       <Footer></Footer>
     </>
