@@ -5,6 +5,8 @@ import { Box, Modal, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 const CharacterModal = ({character, open, onClose}) => {
     if(!character) return null;
@@ -51,14 +53,20 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function RickAndMorty(){
     const [data,setData] = useState([]);
     const [selectedCharacter, setSelectedCharacter] = useState(null);
+    const [info,setInfo] = useState(null);
     const apiUrl = "https://rickandmortyapi.com/api"
+    const fetchMoreData = async (url) => {
+         const response = await getAllCharacters(url); 
+         console.log(response);
+         setData(response.results);
+         setInfo(response.info);
+    };
 
     useEffect (() => {
         async function fetchData(){
             const response = await getAllCharacters(`${apiUrl}/character`);
-            console.log(response);
             setData(response.results); 
-                       
+            setInfo(response.info);
         }
         fetchData();        
     }, [])
@@ -90,7 +98,14 @@ export default function RickAndMorty(){
                         ) )
                     }
                 </Grid>
-            </Box> 
+            </Box>
+            <br></br>
+            <div>
+                <Stack spacing={2} direction="row">
+                    <Button variant="contained" onClick={ () => fetchMoreData(info.prev) }>Página anterior</Button>
+                    <Button variant="contained" onClick={ () => fetchMoreData(info.next) }>Siguiente página</Button>
+                </Stack> 
+            </div>
             <CharacterModal
                 character={selectedCharacter}
                 open={!!selectedCharacter}
