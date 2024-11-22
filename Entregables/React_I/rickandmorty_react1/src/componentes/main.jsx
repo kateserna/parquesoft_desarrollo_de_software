@@ -2,6 +2,7 @@ import Encabezado from "./encabezado";
 import Contenido from "./contenido";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import RickAndMorty from "./rick_and_morty";
 
 
 function Main(){
@@ -18,9 +19,10 @@ function Main(){
         <>
             <Encabezado/>
             <Contenido 
-                saludo={'Hola mundo'} 
+                subtitle={'Listado de personajes:'} 
                 contenido={'Contenido de pagina'}/>
                 <Link to="/modal">Ejemplo de Modal</Link>
+            <RickAndMorty/>
         </>
     );
 }

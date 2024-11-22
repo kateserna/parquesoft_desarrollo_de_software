@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Main from './componentes/main';
 import BasicModal from './componentes/modal';
+import RickAndMorty from './componentes/rick_and_morty';
 
 
 

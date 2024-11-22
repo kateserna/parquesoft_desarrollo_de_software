@@ -1,7 +1,7 @@
-export default function Contenido({saludo, contenido}) {
+export default function Contenido({subtitle, contenido}) {
     return (
         <div>
-            <h1>{saludo}</h1>
+            <h2>{subtitle}</h2>
             <p>{contenido}</p>
         </div>
     );    
