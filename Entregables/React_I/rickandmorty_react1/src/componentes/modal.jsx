@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Link } from 'react-router-dom';
@@ -14,46 +13,46 @@ const style = {
   width: 400,
   color: '#000000',
   bgcolor: '#f3e4fb',
-  border: '2px solid #d304d7',
+  border: '3px solid #d304d7',
   boxShadow: 24,
   p: 4,
 };
 
-export default function BasicModal() {
-    
-    useEffect( () => {
+export default function BasicModal({character, open, onClose}) {
+    if (!character) return null;
+
+    /*useEffect( () => {
         console.log("Componente Modal montado correctamente")
 
         return () => {
             console.log("Componente Modal desmontado correctamente")
         }
-    }, [])
+    }, [])*/
 
-  const [open, setOpen] = useState(false);
+  /*const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => setOpen(false);*/
 
   return (
     <div>
-      <Button onClick={handleOpen}>Abrir modal</Button>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <img src={character.image} width="100%"/>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            {character.name}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            Tipo: {character.type}
+            Origen: {character.origin.name}
           </Typography>
         </Box>
       </Modal>
       <Link to="/">Inicio</Link>
-      <br></br>
-      <ActionAreaCard/>
     </div>
   );
 }
