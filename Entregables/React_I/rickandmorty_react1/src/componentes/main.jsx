@@ -1,6 +1,5 @@
 import Encabezado from "./encabezado";
 import Contenido from "./contenido";
-import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import RickAndMorty from "./rick_and_morty";
 
@@ -19,9 +18,8 @@ function Main(){
         <>
             <Encabezado/>
             <Contenido 
-                subtitle={'Listado de personajes:'} 
-                contenido={'Contenido de pagina'}/>
-                <Link to="/modal">Ejemplo de Modal</Link>
+                subtitle={'Listado de personajes y sus características'} 
+                contenido={'Hacer click en la tarjeta para más información'}/>
             <RickAndMorty/>
         </>
     );

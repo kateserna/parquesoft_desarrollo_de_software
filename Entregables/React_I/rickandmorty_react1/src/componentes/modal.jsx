@@ -1,8 +1,6 @@
-import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { Link } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -20,18 +18,6 @@ const style = {
 export default function BasicModal({character, open, onClose}) {
     if (!character) return null;
 
-    /*useEffect( () => {
-        console.log("Componente Modal montado correctamente")
-
-        return () => {
-            console.log("Componente Modal desmontado correctamente")
-        }
-    }, [])*/
-
-  /*const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);*/
-
   return (
     <div>
       <Modal
@@ -47,11 +33,15 @@ export default function BasicModal({character, open, onClose}) {
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Tipo: {character.type}
+            <br/>
+            Genero: {character.gender}
+            <br/>
             Origen: {character.origin.name}
+            <br/>
+            Ubicación: {character.location.name}
           </Typography>
         </Box>
       </Modal>
-      <Link to="/">Inicio</Link>
     </div>
   );
 }
