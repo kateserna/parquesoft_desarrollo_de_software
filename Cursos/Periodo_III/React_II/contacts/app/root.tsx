@@ -1,4 +1,4 @@
-import { json } from "@remix-run/node";
+import { json,redirect } from "@remix-run/node";
 import {
   Form,
   Links,
@@ -7,17 +7,21 @@ import {
   Scripts,
   ScrollRestoration,
   Link,
-  useLoaderData
+  useLoaderData,
+  NavLink
 } from "@remix-run/react";
 
 import type { LinksFunction } from "@remix-run/node";
 import appStylesHref from "./app.css?url"; /* para traer solo el css de las url*/
 import { getContacts, createEmptyContact } from "./data"; /* esta funcion se reemplazaria por un llamado al backend*/
 
-/* la funcion se debe llamar action para que el hook lo identifique, cuando llegue aca va a crear un contacto */
+/* la funcion se debe llamar action para que el hook lo identifique, cuando 
+llegue aca va a crear un contacto */
 export const action = async () => {
   const contact = await createEmptyContact();
-  return json( {contact} )
+  /*el return va a un redirect que nos lleva a la edicion del formulario edit 
+  para crear el contacto nuevo */
+  return redirect(`/contacts/${contact.id}/edit`)
 }
 
 /* la funcion se debe llamar loader para que el hook lo identifique */
@@ -63,7 +67,16 @@ export default function App() {
               <ul>
                 {contacts.map((contact) => (
                   <li key={contact.id}>
-                    <Link to={`contacts/${contact.id}`}>
+                    <  NavLink 
+                      className={
+                        ({ isActive, isPending }) =>
+                          isActive ?
+                        "active"
+                        : isPending ?
+                        "pending" :
+                        ""
+                       }
+                      to={`contacts/${contact.id}`}>
                       {contact.first || contact.last ? (
                         <>
                         {contact.first} {contact.last}
@@ -74,7 +87,7 @@ export default function App() {
                       {contact.favorite ? (
                         <span>★</span>
                       ) : null}
-                    </Link>
+                    </NavLink>
                   </li>
                 ))}
               </ul>
