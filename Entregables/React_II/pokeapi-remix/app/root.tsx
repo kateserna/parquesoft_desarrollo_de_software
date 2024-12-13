@@ -8,7 +8,8 @@ import {
   ScrollRestoration,
   Link,
   useLoaderData,
-  NavLink
+  NavLink,
+  useNavigate
 } from "@remix-run/react";
 
 import type { LinksFunction } from "@remix-run/node";
@@ -26,6 +27,20 @@ export const action = async () => {
   return redirect(`/pokemons/${pokemon.name}/edit`)
 }
 
+//Tipado de datos:
+
+type Pokemon = {
+  name: string;
+  url: string;
+};
+
+type LoaderData = {
+  results: Pokemon[];
+  next: string | null;
+  previous: string | null;
+}
+
+
 /* la funcion se debe llamar loader para que el hook lo identifique */
 export const loader = async ({ request }: { request: Request }) => {
   const url = new URL(request.url);
@@ -37,14 +52,10 @@ export const loader = async ({ request }: { request: Request }) => {
     throw new Error("Error al cargar los datos de la API")
   }
 
-  const infoPokeApi: any[] = await response.json() // informacion en json de la api
+  const infoPokeApi: LoaderData[] = await response.json() // informacion en json de la api
   const pagAnterior = infoPokeApi.previous
   const pagSiguiente = infoPokeApi.next
-  const pokemons = infoPokeApi.results//lista de pokemons
-  console.log("asd", pokemons)
-  console.log(pagAnterior)
-  console.log(pagSiguiente)
-  console.log({pokemons, pagAnterior, pagSiguiente})
+  const pokemons: Pokemon[] = infoPokeApi.results//lista de pokemons
   return json({pokemons, pagAnterior, pagSiguiente}) /* la data la vuelvo formato json y se retorna*/
 }
 
@@ -54,6 +65,14 @@ export const links: LinksFunction = () => [
 
 export default function App() {
   const {pokemons, pagAnterior, pagSiguiente} = useLoaderData<typeof loader>();/* de esta manera llamo la funcion loader*/
+  const navigate = useNavigate();
+
+  const pagination = (url: string | null) => {
+    if (url) {
+      const adjustedUrl = url.replace(/limit=\d+/, 'limit=20'); // Fuerza el límite a 20
+      navigate(`/?url=${encodeURIComponent(adjustedUrl)}`);
+    }
+  };
 
   return (
     <html lang="en">
@@ -118,12 +137,14 @@ export default function App() {
             )}
           </nav>
           <div>
-            <p>link {pagAnterior}
-              hola {pagSiguiente}
-            </p>
-            <button onClick={ () => loader(pagSiguiente) }>Incrementar</button>
-            <button type="button" >Anterior</button>
-            <button type="button" >Siguiente</button>
+            { pagAnterior && (
+              <button onClick={ () => pagination(pagAnterior)}>Anterior</button>
+            )}
+              
+            { pagSiguiente && (
+              <button onClick={ () => pagination(pagSiguiente)}>Siguiente</button>
+            )}
+                       
           </div>
         </div>
         <div id="detail">  
