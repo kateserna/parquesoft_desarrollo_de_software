@@ -6,12 +6,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  Link,
   useLoaderData,
-  NavLink
+  NavLink,
+  useNavigation,
+  useSubmit
 } from "@remix-run/react";
 
-import type { LinksFunction } from "@remix-run/node";
+import { useEffect } from "react";
+
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import appStylesHref from "./app.css?url"; /* para traer solo el css de las url*/
 import { getContacts, createEmptyContact } from "./data"; /* esta funcion se reemplazaria por un llamado al backend*/
 
@@ -25,9 +28,11 @@ export const action = async () => {
 }
 
 /* la funcion se debe llamar loader para que el hook lo identifique */
-export const loader = async () => {
-  const contacts = await getContacts();/* aqui se almacenaria la data que traigo del backend*/
-  return json({contacts}) /* la data la vuelvo formato json y se retorna*/
+export const loader = async ({ request}: LoaderFunctionArgs) => {
+  const url = new URL(request.url)
+  const q = url.searchParams.get("q");//de esta manera accedemos a las busquedas
+  const contacts = await getContacts(q);/* aqui se almacenaria la data que traigo del backend*/
+  return json({contacts, q}) /* la data la vuelvo formato json y se retorna*/
 }
 
 export const links: LinksFunction = () => [
@@ -35,7 +40,22 @@ export const links: LinksFunction = () => [
 ]
 
 export default function App() {
-  const {contacts} = useLoaderData<typeof loader>();/* de esta manera llamo la funcion loader*/
+  const {contacts, q} = useLoaderData<typeof loader>();/* de esta manera llamo la funcion loader*/
+  const navigation = useNavigation(); // hook de navigation para  consultar el estado de navegacion
+  const submit = useSubmit(); //instancia el hook submit
+  //variable booleana para decirme si estamos realizando una busqueda
+  const searching = 
+    navigation.location &&
+    new URLSearchParams(navigation.location.search).has("q")
+  
+  useEffect( () => {
+    const searchField = document.getElementById("q"); //traigo el input de busqueda para manipularlo
+    // verificar que si es una instancia de un input HTML
+    if(searchField instanceof HTMLInputElement){
+      searchField.value = q || ""
+    }
+  }, [q])
+
   return (
     <html lang="en">
       <head>
@@ -48,15 +68,24 @@ export default function App() {
         <div id="sidebar">
           <h1>Remix Contacts</h1>
           <div>
-            <Form id="search-form" role="search">
+            <Form 
+              onChange={ (event) => {
+                const isFirstSearch = q === null; // es la primera busqueda
+                submit(event.currentTarget, {
+                  replace: !isFirstSearch
+                })}}
+              id="search-form" 
+              role="search">
               <input
+                className={ searching ? "loading" : ""}
                 id="q"
+                defaultValue={ q || ""}
                 aria-label="Search contacts"
                 placeholder="Search"
                 type="search"
                 name="q"
               />
-              <div id="search-spinner" aria-hidden hidden={true} />
+              <div id="search-spinner" aria-hidden hidden={!searching} /> {/*se muestra o no el spinner*/}
             </Form>
             <Form method="post">
               <button type="submit">Nuevo</button>
@@ -98,7 +127,9 @@ export default function App() {
             )}
           </nav>
         </div>
-        <div id="detail">  
+        <div 
+        className={ navigation.state === "loading" && !searching ? "loading" : "" }
+        id="detail">  
           <Outlet/>
         </div>
         <ScrollRestoration />

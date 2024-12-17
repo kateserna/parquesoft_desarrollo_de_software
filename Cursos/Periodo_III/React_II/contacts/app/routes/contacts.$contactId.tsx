@@ -1,11 +1,20 @@
 import { json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData, useFetcher } from "@remix-run/react";
 import type { FunctionComponent } from "react";
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 import invariant from "tiny-invariant";
  
 import type { ContactRecord } from "../data";
-import { getContact } from "../data";
+import { getContact, updateContact } from "../data";
+
+export const action = async ({
+  params, 
+  request
+}: ActionFunctionArgs) => {
+  invariant(params.contactId, "No se ingresó el contactId")
+  const formData = await request.formData(); //caturar la data del formulario de favoritos
+  return updateContact(params.contactId, {favorite: formData.get("favorite") === "true"})
+}
  
 /* busca las variables y las extrae por medio de params(puedo tener varias variables en el nombre del archivo) */
 /*se cambiaria getContact por el codigo del backend llamaria la url que deba llamar y ya tendria la data */
@@ -57,10 +66,12 @@ export default function Contact() {
         {contact.notes ? <p>{contact.notes}</p> : null}
  
         <div>
+        {/* editar */}
           <Form action="edit">
             <button type="submit">Edit</button>
           </Form>
  
+        {/* eliminar */}
           <Form
             action="destroy"
             method="post"
@@ -84,10 +95,12 @@ export default function Contact() {
 const Favorite: FunctionComponent<{
   contact: Pick<ContactRecord, "favorite">;
 }> = ({ contact }) => {
-  const favorite = contact.favorite;
- 
+  const fetcher = useFetcher();//instancia del hook Fetcher
+  const favorite = fetcher.formData 
+                  ? fetcher.formData.get("favorite") === "true"
+                  : contact.favorite;
   return (
-    <Form method="post">
+    <fetcher.Form method="post">
       <button
         aria-label={
           favorite
@@ -99,6 +112,6 @@ const Favorite: FunctionComponent<{
       >
         {favorite ? "★" : "☆"}
       </button>
-    </Form>
+    </fetcher.Form>
   );
 };
