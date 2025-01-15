@@ -386,10 +386,10 @@ print("========================")
 print("Conversor")
 print("========================")
 print("Menu de dos opciones: \n")
-menu = '''
+menu = """
 print("Presiona 1 para convertir de número a palabra.")
 print("Presiona 2 para convertir de palabra a número.")
-'''
+"""
 print(menu)
 opcion = int(input("¿Cúal de las opciones desea?"))
 
@@ -425,7 +425,71 @@ elif opcion == 2:
         print("El numero es, ", 5)
     else:
         print("El numero digitado no esta registrado")
+else:
+    print("\n Opcion no valida")
+print("fin")
+
+#tipos de formato de salida:
+menu = """
+Bienvenidos al registro de usuarios, seleccione la opcion que usted desee:
+
+[1] Digitar su nombre
+[2] Digitar su edad
+[3] Digitar correo electrónico
+"""
+print(menu)
+opcion = input('Digitar opcion entre 1 y 3:')
+if opcion == '1':
+    nombre = input('Digitar nombre: ')
+    print("Tu nombre es: " + nombre)
+    print("Tu nombre es: ", nombre)
+    print("Tu nombre es: {}".format(nombre))
+elif opcion == '2':
+    edad = input('Digitar edad: ')
+    print("Tu edad es: {}".format(edad))
+elif opcion == '3':
+    email = input("Digita el email: ")
+    print("Tu email es: {}".format(email))
+else:
+    print('Debes digitar un numero de 1 a 3')
+    print('=-='*20)
+print("********* Gracias por su atención*********")
 '''
 
+#Validacion de datos:
+menu = """
+Bienvenidos al registro de usuarios, seleccione la opción que usted desee:
 
+[1] Digitar su nombre
+[2] Digitar su edad
+[3] Digitar correo electrónico
+"""
+print(menu)
+opcion = input('Digitar opción entre 1 y 3:')
+if opcion == '1':
+    nombre = input('Digitar nombre: ')
+    if nombre.isalpha(): #metodo para evaluar que sea cadena de caracteres.
+        print("Tu nombre es: {}".format(nombre))
+    else:
+        print("El nombre no es valido")
+elif opcion == '2':
+    edad = input('Digitar edad: ')
+    if edad.isnumeric(): #metodo cadena de numeros
+        edad = int(edad) # conversion a entero
+        if 0 <= edad <= 110:
+            print("Tu edad es: {}".format(edad))
+        else:
+            print('Edad no valida')
+    else:
+        print('Edad no valida')
+elif opcion == '3':
+    email = input("Digita el email: ")
+    if email.find('@') >= 0 and email.find('.') >= 0:
+        print("Tu email es: {}".format(email))
+    else:
+        print("Email no valido")
+else:
+    print('Debes digitar un número de 1 a 3')
+    print('=-='*20)
+print("********* Gracias por su atención *********")
 
