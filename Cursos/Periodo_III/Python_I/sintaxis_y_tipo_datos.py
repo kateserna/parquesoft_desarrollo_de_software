@@ -454,7 +454,7 @@ else:
     print('Debes digitar un numero de 1 a 3')
     print('=-='*20)
 print("********* Gracias por su atención*********")
-'''
+
 
 #Validacion de datos:
 menu = """
@@ -492,4 +492,63 @@ else:
     print('Debes digitar un número de 1 a 3')
     print('=-='*20)
 print("********* Gracias por su atención *********")
+
+#Lista:
+lista = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"]
+print(lista)
+print(lista[4])
+
+#Listas y tuplas:
+nums = [1, 2, 3, 4, 5, 6, 7]
+tupla = (10, 20, 30, 40, 50)
+print(nums[2])
+print(tupla[3])
+
+#modificacion de elementos:
+nums[0] = 100
+nums.append(6)
+print(nums)
+
+miLista = [1, 2, "hola", 3.14]
+print(miLista)
+
+a = [1, 3, 5, 7, 9]
+print(a)
+
+obj = (7, "hola", True, 3.14)
+print(obj)
+
+mi_conjunto = set()
+print(mi_conjunto)
+mi_conjunto = {1, 2, 3}
+print(mi_conjunto)
+
+mi_conjunto = {1,2,"jose", 3.1416}
+mi_conjunto.add(3)
+mi_conjunto.add("Hola")
+mi_conjunto.add('A')
+mi_conjunto.add(2)
+print(mi_conjunto)
+mi_conjunto.discard('A')
+print(mi_conjunto)
+#mi_conjunto.clear()
+#print(mi_conjunto)
+print("jose" in mi_conjunto)#buscar elemento en el conjunto
+
+diccionario = {}
+print(diccionario)
+diccionario = {"azul": "blue", "a": "A"}
+print(diccionario["azul"])
+diccionario["1"] = 1 #agregar un elemento clave - valor.
+print(diccionario)
+diccionario["azul"] = "BLUE" #modificar el valor de un elemento.
+print(diccionario)
+del(diccionario["a"]) #elimina el elemento del diccionario.
+print(diccionario)
+'''
+
+diccionario = {"Pedro": [22, 1.65], "Ana": [25, 1.70], "Maria": [30, 1.75]}
+print(diccionario)
+
+
 
