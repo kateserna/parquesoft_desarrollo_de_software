@@ -1,0 +1,26 @@
+<h1>Hello {{nombre}}!</h1>
+
+<div>
+    <input type="text" placeholder="Ingrese un nombre" [(ngModel)] = "nombre">
+</div>
+
+@if ( nombre === 'Darth Vader') {
+    <div>
+        <b>
+            <h2>Bienvenido al lado oscuro</h2>
+        </b>
+    </div>
+}
+
+<h1>Listado de Nombres</h1>
+<ul>
+    @for (item of listaNombres; track $index) {
+        <li>
+            {{item.nombre}} {{item.apellido}}
+        </li>
+    }
+</ul>
+
+<app-world
+[nombreWorld]
+></app-world>

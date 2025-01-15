@@ -1,0 +1,4 @@
+<h2>El nombre recibido desde el padre es: {{nombreWorld}}</h2>
+<input type="text" placeholder="Mensaje a enviar" [(ngModel)] = "mensajeAlPadre">
+
+<button (click)="emisor.emit(mensajeAlPadre)">Enviar mensaje al padre</button>
