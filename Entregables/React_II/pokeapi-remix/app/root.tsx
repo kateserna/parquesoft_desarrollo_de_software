@@ -39,7 +39,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   if (!apiResponse.ok){
     throw new Error("Error al cargar los datos de la API")
   }
-  const apiResponseJson: LoaderData[] = await apiResponse.json() // informacion en json de la api
+  const apiResponseJson: LoaderData = await apiResponse.json() // informacion en json de la api
   const pagAnterior = apiResponseJson.previous; 
   const pagSiguiente = apiResponseJson.next;
   const pokemonsLista: Pokemon[] = apiResponseJson.results//lista de pokemons
