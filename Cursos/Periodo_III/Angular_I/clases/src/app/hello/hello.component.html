@@ -1,4 +1,6 @@
-<h1>Hello {{nombre}}!</h1>
+@if (nombre.length>0) {
+    <h1>Hello {{nombre}}!</h1>
+}
 
 <div>
     <input type="text" placeholder="Ingrese un nombre" [(ngModel)] = "nombre">
@@ -21,6 +23,18 @@
     }
 </ul>
 
+@if (mensajeDelHijo.length>0) {
+    <h3>Mensaje del hijo: {{mensajeDelHijo}}</h3>
+}
+
 <app-world
-[nombreWorld]
-></app-world>
+[nombreWorld] = nombre
+(emisor)="onEmit($event)"
+>
+</app-world>
+
+<button routerLink="/world">Ir al componente world</button>
+<p></p>
+<div>
+    <button routerLink="/palindromo">Componente Palindromo</button>
+</div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -6,10 +6,9 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './world.component.html',
   styleUrl: './world.component.css'
-})
+}) 
 export class WorldComponent {
   @Input() nombreWorld: string = '';
   @Output() emisor = new EventEmitter<string>();
   mensajeAlPadre: string = '';
-
 }
