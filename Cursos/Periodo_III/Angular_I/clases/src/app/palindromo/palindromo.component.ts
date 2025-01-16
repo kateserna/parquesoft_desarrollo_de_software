@@ -10,11 +10,13 @@ import { FormsModule } from '@angular/forms';
 export class PalindromoComponent {
   palabra: string = '';
 
-  palindromo(esPalindroma: string) {
-    this.palabra = esPalindroma;
-    
-  
+  voltearPalabra(palabraAlreves: string){
+    palabraAlreves = palabraAlreves.split("").reverse().join("");
+    return palabraAlreves;
+  }
 
+  minusculas(p: string){
+    return p.toLowerCase()
   }
 
 }
