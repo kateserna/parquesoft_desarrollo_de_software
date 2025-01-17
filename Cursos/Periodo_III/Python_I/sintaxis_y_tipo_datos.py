@@ -545,10 +545,164 @@ diccionario["azul"] = "BLUE" #modificar el valor de un elemento.
 print(diccionario)
 del(diccionario["a"]) #elimina el elemento del diccionario.
 print(diccionario)
-'''
 
 diccionario = {"Pedro": [22, 1.65], "Ana": [25, 1.70], "Maria": [30, 1.75]}
 print(diccionario)
+
+nums = [4,78,9,84]
+for n in nums:
+    print(n)
+
+for i in range(0,5):
+    print(i)
+    if i == 2:
+        print("Listo")
+
+#decremento:
+for i in range(10,-1,-1):
+    print(i)
+    if i == 2:
+        print("¡Fuego!")
+
+#Cortar la palabra.
+for letras in 'Python':
+    if letras == 'h':
+        break
+    print("Letra actual:", letras)
+
+#Programa pregunta al usuaro la edad y muestra en pantalla los años cumplidos,
+# por ejemplo si digita 5, muestra en pantalla:  haz cumplido 1, haz cumplido 2, hasta has cumplido 5.
+edad =  int(input("Digite su edad: "))
+
+for i in range(1, edad + 1):
+    print(f'Haz cumplido {i}')
+
+x = 1
+while x < 10:
+    print(x)
+    x += 1
+
+#Decremento while:
+x = 9
+while x > 0:
+    print(x)
+    x -= 2
+
+i = 0
+while i < 7:
+    print("Ensayo")
+    i+=1
+
+i = 0
+while i < 100:
+    print(i)
+    i = i +2
+    if i > 10:
+        break
+
+
+#Funciones:
+
+#Funcion sin parametros o retorno de valores:
+def diHola():
+    print("Hola")
+
+diHola()
+
+#Funcion con parametros o retorno de valores:
+def holaConNombre(nombre):
+    print(f'Hola {nombre}')
+
+holaConNombre("Sandra")
+
+def suma(n1, n2):
+    print(n1 + n2)
+
+suma(3, 4)
+
+def resta(a, b = 4):
+    return a - b
+
+resultR = resta(5)
+print(resultR)
+
+def mul_por_5(num):
+    print(f'{num} * 5 = {num * 5}')
+print("Inicio de la multiplicacion por 5")
+mul_por_5(1)
+mul_por_5(2)
+mul_por_5(3)
+mul_por_5(4)
+mul_por_5(5)
+mul_por_5(6)
+mul_por_5(7)
+mul_por_5(8)
+mul_por_5(9)
+mul_por_5(10)
+print("Fin")
+
+def suma (a=4, b=3):
+    return a + b
+
+resultS = suma()
+print(resultS)
+
+resultS_con_parametros = suma(5,6)
+print(resultS_con_parametros)
+
+
+# Ejercicio - Realizar una funcion de acuerdo a dos numeros me indique cual es el mayor:
+def num_mayor(a,b):
+    if a > b:
+        print(f'{a} es mayor que {b}')
+    elif a < b:
+        print(f'{b} es mayor que {a}')
+    else:
+        print(f'{a} y {b} son iguales')
+
+num_mayor(2, 4)
+
+#otra forma de hacer el ejercicio:
+def nummayor (n1, n2):
+    if n1 > n2:
+        max = n1
+    else:
+        max = n2
+    return max
+
+print("Realizar calculo para determinar cual es el numero mayor \n")
+n1 = int(input("Digitar numero 1: "))
+n2 = int(input("Digitar numero 2: "))
+
+mayor = nummayor(n1,n2)
+print(f'El numero mayor es: {mayor}')
+
+
+#CLASES Y OBJETOS:
+
+class Auto:
+    marca = 'Mazda'
+    modelo = 2025
+taxi = Auto()
+print(taxi.modelo)
+print(taxi.marca)
+'''
+
+#la presentacion indique nombre, apellido, edad y de que ciudad es:
+class Persona(object): #Declaramos la clase persona que hereda de object
+    def  __init__(self, nombre, apellido, edad, ciudad): #Constructor de la clase
+        self.nombre = nombre
+        self.apellido = apellido
+        self.edad = edad #inicializamos el atributo edad
+        self.ciudad = ciudad
+
+    def presentarse(self): # metodo para presentarse
+        print(f'Hola, soy {self.nombre} {self.apellido}, tengo {self.edad} años y soy de {self.ciudad}.')
+
+
+#crear el objeto para la clase persona:
+persona1 = Persona("Juan", "Ruiz", 28, "Cali")
+persona1.presentarse() #Llamar al metodo para presentar a la persona.
 
 
 
