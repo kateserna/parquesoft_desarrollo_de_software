@@ -19,5 +19,9 @@ export const routes: Routes = [
     {
         path: 'palindromo',
         component: PalindromoComponent
+    },
+    {
+        path: 'material-test',
+        loadComponent: () => import('./material-test/material-test.component').then(m => m.MaterialTestComponent)
     }
 ];
