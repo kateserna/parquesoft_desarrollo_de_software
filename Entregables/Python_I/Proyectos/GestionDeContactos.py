@@ -12,6 +12,7 @@ def mostrar_menu():
     print("5. Salir")
 
 contactos = []
+
 while True:
     mostrar_menu()
     opcion = input("Elige una opción: ")
