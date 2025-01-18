@@ -47,8 +47,11 @@ while True:
                 contactos.remove(c)
                 print("Contacto Eliminado. ")
                 break
+            else:
+                print("Contacto no existe.")
+                break
     else:
-        print("Opcion no válida. Intentar de nuevo.")
+        print("Opción no válida. Intentar de nuevo.")
 
 
 
