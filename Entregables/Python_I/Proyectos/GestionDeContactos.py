@@ -4,11 +4,11 @@ class Contacto:
         self.telefono = telefono
 
 def mostrar_menu():
-    print("Gestion de Contactos")
-    print("1. Agregar Contacto")
-    print("2. Mostrar Contacto")
-    print("3. Buscar Contacto")
-    print("4. Eliminar Contacto")
+    print("\nGestion de Contactos")
+    print("1. Agregar un Contacto")
+    print("2. Mostrar Contactos")
+    print("3. Buscar un Contacto")
+    print("4. Eliminar un Contacto")
     print("5. Salir")
 
 contactos = []
@@ -22,12 +22,25 @@ while True:
         break
 
     if opcion == "1":
-        nombre = input("Ingrese el nombre: ")
-        telefono = input("Ingrese el número telefónico: ")
-        contacto = Contacto(nombre, telefono)
-        contactos.append(contacto)
-        print("Contacto agregado.")
+        while True:
+            nombre = input("Ingrese el nombre: ")
+            try:
+                telefono = int(input("Ingrese el número telefónico: "))
+                if nombre == "" or telefono == "":
+                    print("Error: Entrada no válida.")
+                    continue
+                else:
+                    contacto = Contacto(nombre, telefono)
+                    contactos.append(contacto)
+                    print("Contacto agregado.")
+                    break
+            except ValueError:
+                print("Error: Entrada no válida. Digite un número.")
+                continue
     elif opcion == "2":
+        if len(contactos) == 0:
+            print("No hay contactos en la lista")
+            continue
         for c in contactos:
             print(f'Nombre: {c.nombre}, Telefono: {c.telefono}')
     elif opcion == "3":
@@ -35,13 +48,14 @@ while True:
         encontrado = False
         for c in contactos:
             if c.nombre == nombre:
+                print("Contacto encontrado:")
                 print(f'Nombre: {c.nombre}, Telefono: {c.telefono}')
                 encontrado = True
                 break
         if not encontrado:
-            print("Contacto no encontrado")
+            print("Contacto no encontrado.")
     elif opcion == "4":
-        nombre = input("Ingrese el nombre a eliminar: ")
+        nombre = input("Ingrese el nombre del contacto a eliminar: ")
         for c in contactos:
             if c.nombre == nombre:
                 contactos.remove(c)
