@@ -26,18 +26,20 @@ while True:
         break
 
     if opcion == "1":
-        titulo = input("Ingrese el nombre de la tarea: ").title()
-        if titulo == "":
-            print("Título no valido. Ingrese porfavor un título.")
-            continue
-        descripcion = input("Ingrese la descripcion de la tarea: ").lower()
-        estado = input("Ingrese el estado de la tarea (pendiente o completada): ").title()
-        if estado not in ("Pendiente", "Completada"):
-            print("El estado no es válido. Ingrese el estado pendiente o completada")
-            continue
-        tarea = Tarea(titulo, descripcion, estado)
-        listaTareas.append(tarea)
-        print("Tarea agregada.")
+        while True:
+            titulo = input("Ingrese el nombre de la tarea: ").title()
+            if titulo == "":
+                print("Título no valido. Ingrese porfavor un título.")
+                continue
+            descripcion = input("Ingrese la descripción de la tarea: ").lower()
+            estado = input("Ingrese el estado de la tarea (pendiente o completada): ").title()
+            if estado not in ("Pendiente", "Completada"):
+                print("El estado no es válido. Ingrese el estado pendiente o completada")
+                continue
+            tarea = Tarea(titulo, descripcion, estado)
+            listaTareas.append(tarea)
+            print("Tarea agregada.")
+            break
     elif opcion == "2":
         print("Listado de tareas:")
         for t in listaTareas:
@@ -60,14 +62,15 @@ while True:
                 tareaEncontrada = True
                 print(f'Va a actualizar la tarea {titulo}:\n'
                       f'Título: {t.titulo}, Descripción: {t.descripcion}, Estado: {t.estado} ')
-
-                estadoActualizado = input("Ingrese el estado de la tarea (pendiente o completada): ").title()
-                if estadoActualizado not in ("Pendiente", "Completada"):
-                    print("El estado no es válido. Ingrese el estado pendiente o completada")
+                while True:
+                    estadoActualizado = input("Ingrese el estado de la tarea (pendiente o completada): ").title()
+                    if estadoActualizado not in ("Pendiente", "Completada"):
+                        print("El estado no es válido. Ingrese el estado pendiente o completada")
+                        continue
+                    t.estado = estadoActualizado
+                    print(f'Tarea actualizada: \n'
+                          f'Título: {t.titulo}, Descripción: {t.descripcion}, Estado: {t.estado} ')
                     break
-                t.estado = estadoActualizado
-                print(f'Tarea actualizada: \n'
-                      f'Título: {t.titulo}, Descripción: {t.descripcion}, Estado: {t.estado} ')
                 break
         if not tareaEncontrada:
             print(f' La tarea {titulo} no existe.')
@@ -101,7 +104,12 @@ while True:
         if not tareaEncontrada:
             print(f' La tarea {titulo} no existe.')
     elif opcion == "7":
-        filtroEstado = input("Ingrese el estado por el que desea filtrar (Completada o Pendiente: ").title()
+        while True:
+            filtroEstado = input("Ingrese el estado por el que desea filtrar (Completada o Pendiente: ").title()
+            if filtroEstado not in ("Pendiente", "Completada"):
+                print("El estado no es válido. Ingrese el estado pendiente o completada")
+                continue
+            break
         for t in listaTareas:
             if t.estado == filtroEstado:
                 print(f'Título: {t.titulo}, Descripción: {t.descripcion}, Estado: {t.estado}')
