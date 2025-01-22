@@ -31,3 +31,18 @@
     </mat-card-content>
   </mat-card>
 
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title> Pipes de capicúa</mat-card-title>
+      <mat-card-subtitle>Usando pipes para detectar cadenas capicúas o palíndromos</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <input type="text" [(ngModel)]="palabra" placeholder="Ingrese una cadena para analizar">
+        @if (palabra.length > 0) {
+            <p>
+                La palabra {{palabra}} es palíndromo {{ palabra | capicua}}
+            </p>
+        }
+    </mat-card-content>
+  </mat-card>
+

@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../shared/material/material.module';
 import { CurrencyPipe, DatePipe, DecimalPipe, UpperCasePipe } from '@angular/common';
+import { CapicuaPipe } from '../../pipes/capicua.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ejemplos-pipes',
@@ -9,14 +11,27 @@ import { CurrencyPipe, DatePipe, DecimalPipe, UpperCasePipe } from '@angular/com
     CurrencyPipe, 
     DatePipe, 
     UpperCasePipe,
-    DecimalPipe
+    DecimalPipe,
+    CapicuaPipe,
+    FormsModule
   ],
   templateUrl: './ejemplos-pipes.component.html',
   styleUrl: './ejemplos-pipes.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush  
 })
 
-export class EjemplosPipesComponent {
+export class EjemplosPipesComponent implements OnInit, OnDestroy{
+  
+  ngOnDestroy(): void {
+    //Desuscribirse de observables
+    console.log('Componente destruido')
+  }
+  
+  ngOnInit(): void {
+    //Realizar llamadas al servidor
+    console.log('Componente inicializado')
+  }
+
   //objeto persona
   producto = {
     nombre: "iPhone X",
@@ -28,5 +43,7 @@ export class EjemplosPipesComponent {
     nombre: "Andres Calamaro",
     fechaNacimiento: "1985-05-20"
   }
+
+  palabra = '';
 
 }
