@@ -1,0 +1,23 @@
+
+<!-- usando la suscripcion al observable y el contador -->
+<!-- <h1>Han transcurrido: {{ contador }} segundos</h1> -->
+
+<!--  Conecta el observable al html -->
+<!-- <h2>Conectando el observable al html {{ observableIntervalo | async }}</h2> -->
+
+<ol>
+    <li>
+      <mat-form-field>
+        <mat-label>What's your name?</mat-label>
+        <input matInput [(ngModel)]="name" />
+      </mat-form-field>
+    </li>
+    <li>
+      <button mat-raised-button (click)="openDialog()">Pick one</button>
+    </li>
+    @if (animal) {
+      <li>
+        You chose: <em>{{animal}}</em>
+      </li>
+    }
+  </ol>

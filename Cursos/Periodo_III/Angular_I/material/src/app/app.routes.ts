@@ -8,7 +8,13 @@ export const routes: Routes = [
     {
         path: 'pipes',
         loadComponent: () => import('./core/components/ejemplos-pipes/ejemplos-pipes.component').then(m => m.EjemplosPipesComponent)
+    },
+    {
+        path: 'observers',
+        loadComponent: () => import('./shared/components/observables/observables.component').then(m => m.ObservablesComponent)
     }
+    
+
 
 
 ];
