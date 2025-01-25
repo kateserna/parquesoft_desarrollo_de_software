@@ -12,6 +12,10 @@ export const routes: Routes = [
     {
         path: 'observers',
         loadComponent: () => import('./shared/components/observables/observables.component').then(m => m.ObservablesComponent)
+    },
+    {
+        path: 'personajes',
+        loadComponent: () => import('./core/components/personajes/personajes.component').then(m => m.PersonajesComponent)
     }
     
 
