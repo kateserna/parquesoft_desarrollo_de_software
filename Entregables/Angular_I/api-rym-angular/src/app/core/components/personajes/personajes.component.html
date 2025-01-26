@@ -1,7 +1,10 @@
+<h1>API Rick and Morty</h1>
+
+<h2>De click en el card para obtener mas información del personaje.</h2>
 
 @for (character of personajes; track character.id) {
 
-    <mat-card class="example-card" appearance="outlined">
+    <mat-card class="example-card" appearance="outlined" (click)="openDialog(character)">
         <mat-card-header>
           <mat-card-title-group>
             <mat-card-title>{{ character.name }}</mat-card-title>
