@@ -1,10 +1,10 @@
 
-    <h2 mat-dialog-title>{{data.name}}</h2>
+    <h2 mat-dialog-title><strong>{{data.name}}</strong></h2>
     <img [src]='data.image' >
     <mat-dialog-content>
-        <em>Tipo:</em> {{data.type}} <br>
-        <em>Origen:</em> {{data.origin}} <br>
-        <em>Locación:</em> {{data.location}}
+        <strong><em>Tipo:</em></strong> {{data.type}} <br>
+        <strong><em>Origen:</em></strong> {{data.origin}} <br>
+        <strong><em>Locación:</em></strong> {{data.location}}
     </mat-dialog-content>
     <mat-dialog-actions>
     <button mat-button mat-dialog-close>Cerrar</button>

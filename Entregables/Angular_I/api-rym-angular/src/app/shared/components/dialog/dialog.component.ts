@@ -23,11 +23,7 @@ import {
 })
 export class DialogComponent {
 
-  // readonly dialogRef = inject(MatDialogRef<DialogComponent>);
+  readonly dialogRef = inject(MatDialogRef<DialogComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
-
-  // onNoClick(): void {
-  //   this.dialogRef.close();
-  // }
 
 }
