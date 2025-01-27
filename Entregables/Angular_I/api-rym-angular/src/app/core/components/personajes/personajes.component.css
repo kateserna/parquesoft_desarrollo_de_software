@@ -4,3 +4,9 @@ h1 {
 .example-card {
     max-width: 600px;
   }
+
+.example-button-row {
+    display: flex;
+    justify-content: space-between; /* distribuye espacio */
+    padding: 8px 16px; 
+}

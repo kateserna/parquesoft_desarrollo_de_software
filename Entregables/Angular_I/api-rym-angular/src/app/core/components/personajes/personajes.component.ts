@@ -13,15 +13,23 @@ import { DialogComponent } from '../../../shared/components/dialog/dialog.compon
 export class PersonajesComponent implements OnInit{
 
   personajes: any[] = []
+  url_prev: string | null = '';
+  url_next: string | null = '';
 
   constructor(private rymService: RymService){}
 
   readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
-    this.rymService.obtenerPersonajes().subscribe(( data: any) => {
-      console.log(data)
+    this.changePage('');
+    
+  }
+
+  changePage(url: string | null){
+    this.rymService.obtenerPersonajes(url).subscribe(( data: any) => {
       this.personajes = data.results
+      this.url_prev = data.info.prev
+      this.url_next = data.info.next
     })
   }
 
@@ -32,7 +40,8 @@ export class PersonajesComponent implements OnInit{
         image:character.image, 
         type:character.type, 
         origin:character.origin.name, 
-        location: character.location.name}
+        location:character.location.name,
+      }
     });
   }
 

@@ -10,11 +10,11 @@ export class RymService {
 
   constructor( private http: HttpClient) { }
 
-  obtenerPersonajes(){
-    return this.http.get(`${this.URLBase}/character`)
+  obtenerPersonajes(url_a:string | null){
+    if (url_a == '' || url_a == null)
+      return this.http.get(`${this.URLBase}/character`)
+    else
+      return this.http.get(url_a)
   }
 
-  obtenerUnPersonaje(id:string){
-    return this.http.get(`${this.URLBase}/character/${id}`)
-  }
 }

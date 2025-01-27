@@ -19,3 +19,9 @@
     </mat-card>
     <br>
 }
+
+<div class="example-button-row">
+  <button mat-stroked-button (click)="changePage(url_prev)" [disabled]="!url_prev">Página Anterior </button>
+  
+  <button mat-stroked-button (click)="changePage(url_next)" [disabled]="!url_next">Página Siguiente</button>
+</div>
