@@ -2,23 +2,30 @@
 
 <h3>De click en el card para obtener mas información del personaje.</h3>
 
-@for (character of personajes; track character.id) {
+<mat-grid-list cols="2"  rowHeight="2:1" gutterSize="16px">
+  
+  @for (character of personajes; track character.id) {
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-card class="example-card" appearance="outlined" (click)="openDialog(character)">
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title><strong>{{ character.name }}</strong></mat-card-title>
+              <mat-card-subtitle>{{ character.species }}</mat-card-subtitle>
+              <img mat-card-xl-image [src]='character.image' >
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-content>
+              Genero: {{character.gender}} <br>
+              Status: {{character.status}}
+          </mat-card-content>
+      </mat-card>
+      <br>
+    </mat-grid-tile>
+  }
+  
+  
+</mat-grid-list>
 
-    <mat-card class="example-card" appearance="outlined" (click)="openDialog(character)">
-        <mat-card-header>
-          <mat-card-title-group>
-            <mat-card-title><strong>{{ character.name }}</strong></mat-card-title>
-            <mat-card-subtitle>{{ character.species }}</mat-card-subtitle>
-            <img mat-card-xl-image [src]='character.image' >
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content>
-            Genero: {{character.gender}} <br>
-            Status: {{character.status}}
-        </mat-card-content>
-    </mat-card>
-    <br>
-}
 
 <div class="example-button-row">
   <button mat-stroked-button (click)="changePage(url_prev)" [disabled]="!url_prev">Página Anterior </button>

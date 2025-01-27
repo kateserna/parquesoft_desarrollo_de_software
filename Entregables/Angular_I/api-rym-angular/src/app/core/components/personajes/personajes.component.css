@@ -2,7 +2,19 @@ h1 {
     text-align: center;
 }
 .example-card {
-    max-width: 600px;
+    height: 100%; /* Asegura que la tarjeta llene todo el tile */
+    width: 100%; /* Asegura que la tarjeta llene todo el tile */
+    justify-content: space-between;
+  }
+
+mat-card img {
+  width: 40%;
+  height: auto; /* Mantiene las proporciones de la imagen */
+  border-radius: 4px;
+}
+
+mat-card-content {
+    text-align: left; /* Alinea el texto a la izquierda */
   }
 
 .example-button-row {
@@ -10,3 +22,10 @@ h1 {
     justify-content: space-between; /* distribuye espacio */
     padding: 8px 16px; 
 }
+
+mat-grid-tile {
+    text-align: center;
+    background: #bbc6f869;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  }
