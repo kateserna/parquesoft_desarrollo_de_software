@@ -1,7 +1,7 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, APIRouter, Form
 from pydantic import BaseModel
-from typing import List
-from fastapi import APIRouter
+from typing import List, Annotated
+
 
 router = APIRouter()
 
@@ -23,7 +23,7 @@ async def get_celulares():
 
 # Ruta para crear un celular
 @router.post("/celulares", status_code=201)
-async def create_celular(celular: Celular):
+async def create_celular(celular: Annotated[Celular, Form()]):
     celulares.append(celular)
     return {"mensaje": "Nuevo celular creado"}
 

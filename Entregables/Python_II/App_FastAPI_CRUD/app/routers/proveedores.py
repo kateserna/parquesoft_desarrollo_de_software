@@ -1,6 +1,6 @@
-from fastapi import HTTPException
+from fastapi import Form, HTTPException
 from pydantic import BaseModel
-from typing import List
+from typing import Annotated, List
 from fastapi import APIRouter
 
 router = APIRouter()
@@ -23,7 +23,7 @@ async def get_proveedores():
 
 # Ruta para crear un proveedor
 @router.post("/proveedores", status_code=201)
-async def create_proveedor(proveedor: Proveedor):
+async def create_proveedor(proveedor: Annotated[Proveedor, Form()]):
     proveedores.append(proveedor)
     return {"mensaje": "Nuevo proveedor creado"}
 

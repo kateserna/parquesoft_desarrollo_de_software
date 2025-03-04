@@ -1,6 +1,6 @@
-from fastapi import HTTPException
+from fastapi import Form, HTTPException
 from pydantic import BaseModel
-from typing import List
+from typing import Annotated, List
 from fastapi import APIRouter
 
 router = APIRouter()
@@ -23,7 +23,7 @@ async def get_clientes():
 
 # Ruta para crear un cliente
 @router.post("/clientes", status_code=201)
-async def create_cliente(cliente: Cliente):
+async def create_cliente(cliente: Annotated[Cliente, Form()]):
     clientes.append(cliente)
     return {"mensaje": "Nuevo cliente creado"}
 
