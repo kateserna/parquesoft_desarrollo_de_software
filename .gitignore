@@ -8,3 +8,13 @@ Cursos/Periodo_III/NoSQL/
 .idea/
 .vscode/
 Cursos/Periodo_III/Python_I/ejercicio1.py
+
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/*.py[cod]
+
+# Environments
+.env
+.venv
