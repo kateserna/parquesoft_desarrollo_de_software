@@ -1,0 +1,73 @@
+<div class="mb-4 p-8 flex items-center justify-center">
+    <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+        <ng-template #title> Ejemplo 5 de señales</ng-template>
+        <ng-template #subtitle> Calculadora simple de IVA </ng-template>
+        <p></p>
+        <p-floatlabel>
+            <input
+                pInputText
+                id="precio"
+                type="number"
+                autocomplete="off"
+                min="0"
+                oninput="validity.valid || (value = 0)"
+                [value]="precio()"
+                (input)="onInputUpdate($event)"
+            />
+            <label for="precio">Precio</label>
+        </p-floatlabel>
+        <p></p>
+        <br>
+        <br>
+        <p-floatlabel>
+            <input
+                pInputText
+                id="iva"
+                type="number"
+                autocomplete="off"
+                min="0"
+                [value]="IVAEnPorcentaje()"
+                (input)="onInputIvaUpdate($event)"
+            />
+            <label for="iva">IVA(%)</label>
+        </p-floatlabel>
+        <div>
+            <div class="summary">
+                <p>Resumen del total</p>
+                <p>Total IVA: {{totalIva() }}</p>
+                Total Precio: {{total() }}
+            </div>
+        </div>
+        <p-button 
+            label="Guardar" 
+            severuty="secondary"
+            class="w-full"
+            [outlined]="true"
+            (click)="save()"
+        />
+
+        <hr/>
+
+        @if (listado().length > 0) {
+            <p-table [value]="listado()" [tableStyle]="{ 'min-width':'50 rem' }">
+                <ng-template #header>
+                    <tr>
+                        <th>Precio</th>
+                        <th>Porcentaje IVA</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-item>
+                    <tr>
+                        <td>{{ item.precio }}</td>
+                        <td>{{ item.ivaEnPorcentaje }}</td>
+                        <td>{{ item.iva }}</td>
+                        <td>{{ item.total }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        }
+        
+    </p-card>
+</div>
