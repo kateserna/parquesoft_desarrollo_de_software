@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class Ejemplo4Component {
   contador = signal(0);
-  contadorComputado = computed( () =>{ this.contador() * 2 });
+  contadorComputado = computed( () => this.contador() * 2 );
 
   incrementar() {
     this.contador.update( valor => valor + 1);
