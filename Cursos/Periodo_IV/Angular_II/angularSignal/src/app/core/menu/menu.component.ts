@@ -53,6 +53,16 @@ export class MenuComponent implements OnInit {
                 label: 'Ejemplo 6',
                 icon: 'pi pi-wave-pulse',
                 routerLink: 'ejemplo6'
+              },
+              {
+                label: 'Ejemplo 7',
+                icon: 'pi pi-wave-pulse',
+                routerLink: 'ejemplo7'
+              },
+              {
+                label: 'Carrito de compras',
+                icon: 'pi pi-wave-pulse',
+                routerLink: 'cart'
               }
 
             ]

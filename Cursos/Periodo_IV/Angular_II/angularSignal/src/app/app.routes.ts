@@ -24,8 +24,14 @@ export const routes: Routes = [
     {
         path:'ejemplo6',
         loadComponent: () => import('./components/ejemplo6/ejemplo6.component').then(c => c.Ejemplo6Component)
+    },
+    {
+        path:'ejemplo7',
+        loadComponent: () => import('./components/ejemplo7/ejemplo7.component').then(c => c.Ejemplo7Component)
+    },
+    {
+        path:'cart',
+        loadComponent: () => import('./components/cart/cart.component').then(c => c.CartComponent)
     }
-
-
 
 ];
