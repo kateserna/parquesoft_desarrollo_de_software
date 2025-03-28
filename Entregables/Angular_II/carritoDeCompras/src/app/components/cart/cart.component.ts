@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { products } from './products';
+import { products } from '../../components/cart/products';
 import { Dialog } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TableModule } from 'primeng/table';
+import { ProductosService } from '../../core/services/productos.service';
 
 
 interface Producto {
@@ -37,33 +38,32 @@ interface Producto {
   styleUrl: './cart.component.scss'
 })
 export class CartComponent {
-  readonly firstPage = 1;
-  itemsPerPage = 5; //items por pagina
 
-  searchInput = signal(''); //señal del campo de busqueda
+  listaProductos: Producto[] = [];
+  constructor(private productosService: ProductosService) {}
+
+  //variables para paginado
+  readonly firstPage = 0;
+  itemsPerPage = 20; //items por pagina
   currentPage = signal(this.firstPage); //control del paginado
 
-  isNextPageNotAvailable = computed(() => {
-    const filterProducts = products
-      .filter( product => product.title.toLowerCase().includes( this.searchInput().toLowerCase()))
-      return filterProducts.length < (this.currentPage() +1) * this.itemsPerPage;
-  })
-
-  filterProducts = computed(() => {
-    const startIndex = (this.currentPage() - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    
-    return products
-      .filter( product => product.title.toLowerCase().includes( this.searchInput().toLowerCase()))
-      .slice(startIndex, endIndex);
-  });
-
-  searchProduct(searchText: string) {
-    this.searchInput.set(searchText);
-    if (this.currentPage() > this.firstPage) { 
-      this.currentPage.set(this.firstPage);
-    }
+  ngOnInit(): void {
   }
+
+  //me devuelve los productos de la tabla a traves del servicio
+  allProducts = computed(() => {
+    this.productosService.getAllProducts().subscribe((data: any) => {
+      this.listaProductos = data;
+    });
+    
+    console.log('currentPage:', this.currentPage());
+    const startIndex = (this.currentPage() - 1) * this.itemsPerPage;
+    console.log('startIndex:', startIndex);
+    const endIndex = startIndex + this.itemsPerPage;
+    console.log('endIndex:', endIndex);
+    console.log('listaProductos:', this.listaProductos);
+    return this.listaProductos.slice(startIndex, endIndex);
+  })
 
   //ir a la pagina anterior
   goToPrevPage(){
@@ -74,6 +74,39 @@ export class CartComponent {
   goToNextPage(){
     this.currentPage.update( currentPage => Math.min(currentPage + 1, this.itemsPerPage + 1))
   }
+
+  //--------- boton de paginado y tabla -------------
+  
+
+  //eliminar variable no se va a usar
+  searchInput = signal(''); //señal del campo de busqueda
+  
+
+  isNextPageNotAvailable = computed(() => {
+    const filterProducts = this.listaProductos
+      //.filter( product => product.title.toLowerCase().includes( this.searchInput().toLowerCase()))
+      return filterProducts.length < (this.currentPage() +1) * this.itemsPerPage;
+  })
+
+  //eliminar metodo: no se usa
+  filterProducts = computed(() => {
+    const startIndex = (this.currentPage() - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    
+    return products
+      .filter( product => product.title.toLowerCase().includes( this.searchInput().toLowerCase()))
+      .slice(startIndex, endIndex);
+  });
+
+  //eliminar metodo: no se usa
+  searchProduct(searchText: string) {
+    this.searchInput.set(searchText);
+    if (this.currentPage() > this.firstPage) { 
+      this.currentPage.set(this.firstPage);
+    }
+  }
+
+  
 //--------- boton de carrito de compras y dialog (carrito de compras)-------------
   visible: boolean = false;
 
