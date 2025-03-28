@@ -1,5 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { products } from '../../components/cart/products';
+import { TableLazyLoadEvent } from 'primeng/table';
 import { Dialog } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -8,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TableModule } from 'primeng/table';
 import { ProductosService } from '../../core/services/productos.service';
+import { Router } from '@angular/router';
 
 
 interface Producto {
@@ -38,32 +40,34 @@ interface Producto {
   styleUrl: './cart.component.scss'
 })
 export class CartComponent {
-
   listaProductos: Producto[] = [];
   constructor(private productosService: ProductosService) {}
 
   //variables para paginado
-  readonly firstPage = 0;
-  itemsPerPage = 20; //items por pagina
+  readonly firstPage = 1;
+  itemsPerPage = 10; //items por pagina
   currentPage = signal(this.firstPage); //control del paginado
+  startIndex = 0;
+  endIndex = 0;
 
   ngOnInit(): void {
+    this.allProducts(); //llamo a la funcion que me trae los productos
   }
 
+  isNextPageNotAvailable = computed(() => {
+    const products = this.listaProductos 
+      return products.length ===0 || this.currentPage() * this.itemsPerPage >= products.length;
+  })
+
   //me devuelve los productos de la tabla a traves del servicio
-  allProducts = computed(() => {
+  allProducts() {
     this.productosService.getAllProducts().subscribe((data: any) => {
       this.listaProductos = data;
+      this.startIndex = (this.currentPage() - 1) * this.itemsPerPage;
+      this.endIndex = this.startIndex + this.itemsPerPage;
     });
-    
-    console.log('currentPage:', this.currentPage());
-    const startIndex = (this.currentPage() - 1) * this.itemsPerPage;
-    console.log('startIndex:', startIndex);
-    const endIndex = startIndex + this.itemsPerPage;
-    console.log('endIndex:', endIndex);
-    console.log('listaProductos:', this.listaProductos);
-    return this.listaProductos.slice(startIndex, endIndex);
-  })
+    return this.listaProductos.slice(this.startIndex, this.endIndex);
+  }
 
   //ir a la pagina anterior
   goToPrevPage(){
@@ -80,13 +84,6 @@ export class CartComponent {
 
   //eliminar variable no se va a usar
   searchInput = signal(''); //señal del campo de busqueda
-  
-
-  isNextPageNotAvailable = computed(() => {
-    const filterProducts = this.listaProductos
-      //.filter( product => product.title.toLowerCase().includes( this.searchInput().toLowerCase()))
-      return filterProducts.length < (this.currentPage() +1) * this.itemsPerPage;
-  })
 
   //eliminar metodo: no se usa
   filterProducts = computed(() => {
