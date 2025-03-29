@@ -1,5 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
-import { products } from '../../components/cart/products';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { Dialog } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -8,8 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TableModule } from 'primeng/table';
 import { ProductosService } from '../../core/services/productos.service';
-import { Router } from '@angular/router';
-
 
 interface Producto {
   id: number,
@@ -38,16 +35,16 @@ interface Producto {
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   listaProductos: Producto[] = [];
   constructor(private productosService: ProductosService) {}
 
   //variables para paginado
   readonly firstPage = 1;
   itemsPerPage = 20; //items por pagina
-  currentPage = signal(this.firstPage); //control del paginado  // 1
-  startIndex = 0;  //0
-  endIndex = 0;  //5
+  currentPage = signal(this.firstPage); //control del paginado
+  startIndex = 0;
+  endIndex = 0;
 
   ngOnInit(): void {
     this.allProducts(); //llamo a la funcion que me trae los productos
@@ -79,9 +76,79 @@ export class CartComponent {
   goToNextPage(){
     this.currentPage.update( currentPage => Math.min(currentPage + 1, Math.floor(this.listaProductos.length / this.itemsPerPage) + 1))
   }
-
-  //--------- boton de paginado y tabla -------------
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  //--------- formulario para crear producto -------------
+  title = ('');
+  description = ('');
+  price = (0);
+  discountPercentage = (0);
+  rating = (0);
+  stock = (0);
+  brand = ('');
+  category = ('');
+  thumbnail = ('');
+
+  //metodo para crear un producto
+  addProduct() {
+    const newProduct: Producto = {
+      id: this.listaProductos.length + 1,
+      title: this.title,
+      description: this.description,
+      price: this.price,
+      discountPercentage: this.discountPercentage,
+      rating: this.rating,
+      stock: this.stock,
+      brand: this.brand,
+      category: this.category,
+      thumbnail: this.thumbnail
+    };
+    this.productosService.createProduct(this.listaProductos).subscribe((data: any) => {
+      console.log("Producto creado:", data);
+      /*
+      this.listaProductos.update((data) => {
+        const newProduct = {
+          title: this.title,
+          description: this.description,
+          price: this.price,
+          discountPercentage: this.discountPercentage,
+          rating: this.rating,
+          stock: this.stock,
+          brand: this.brand,
+          category: this.category,
+          thumbnail: this.thumbnail
+        };
+        return[...this.listaProductos, newProduct];
+      }
+    ) //(historial:Producto[])*/
+    })
+  }
+
+  //--------- boton de busqueda y filtrado -------------
 
   //eliminar variable no se va a usar
   searchInput = signal(''); //señal del campo de busqueda
@@ -91,7 +158,7 @@ export class CartComponent {
     const startIndex = (this.currentPage() - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     
-    return products
+    return this.listaProductos
       .filter( product => product.title.toLowerCase().includes( this.searchInput().toLowerCase()))
       .slice(startIndex, endIndex);
   });
@@ -104,11 +171,9 @@ export class CartComponent {
     }
   }
 
-  
-//--------- boton de carrito de compras y dialog (carrito de compras)-------------
+  //--------- boton de carrito de compras y dialog (carrito de compras)-------------
   visible: boolean = false;
-
-  productos = signal<Producto[]>(products); //señal con la lista de productos
+  productos = signal<Producto[]>(this.listaProductos); //señal con la lista de productos
   cart = signal<Producto[]>([]); //carrito de compras donde voy guardando los productos, inicia en 0
 
   totalPrice = computed(() => {
@@ -132,7 +197,4 @@ export class CartComponent {
   showDialog() {
   this.visible = true;
   }
-
-
 }
-
