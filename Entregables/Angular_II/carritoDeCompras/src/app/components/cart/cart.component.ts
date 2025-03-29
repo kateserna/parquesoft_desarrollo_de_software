@@ -1,6 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
 import { products } from '../../components/cart/products';
-import { TableLazyLoadEvent } from 'primeng/table';
 import { Dialog } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -45,19 +44,21 @@ export class CartComponent {
 
   //variables para paginado
   readonly firstPage = 1;
-  itemsPerPage = 10; //items por pagina
-  currentPage = signal(this.firstPage); //control del paginado
-  startIndex = 0;
-  endIndex = 0;
+  itemsPerPage = 20; //items por pagina
+  currentPage = signal(this.firstPage); //control del paginado  // 1
+  startIndex = 0;  //0
+  endIndex = 0;  //5
 
   ngOnInit(): void {
     this.allProducts(); //llamo a la funcion que me trae los productos
   }
 
-  isNextPageNotAvailable = computed(() => {
-    const products = this.listaProductos 
-      return products.length ===0 || this.currentPage() * this.itemsPerPage >= products.length;
-  })
+  isNextPageNotAvailable(){
+    if (this.listaProductos.length === 0) {
+      return false; // Botón de siguiente disponible
+    }
+    return this.currentPage() >= Math.floor(this.listaProductos.length / this.itemsPerPage) + 1
+  }
 
   //me devuelve los productos de la tabla a traves del servicio
   allProducts() {
@@ -76,7 +77,7 @@ export class CartComponent {
 
   //ir a la pagina siguiente 
   goToNextPage(){
-    this.currentPage.update( currentPage => Math.min(currentPage + 1, this.itemsPerPage + 1))
+    this.currentPage.update( currentPage => Math.min(currentPage + 1, Math.floor(this.listaProductos.length / this.itemsPerPage) + 1))
   }
 
   //--------- boton de paginado y tabla -------------

@@ -15,17 +15,16 @@
                 </ng-template>
                 <ng-template #body  let-producto>
                     <tr>
-                            <td>{{producto.title}}</td>
-                            <td>{{producto.price}}</td>
-                            <td>
-                                <p-button
-                                    label="Eliminar"
-                                    (click)="removeFromCart(producto)"
-                                    severity="danger"
-                                    [outlined]="true"
-                                />
-                            </td>
-                        
+                        <td>{{producto.title}}</td>
+                        <td>{{producto.price}}</td>
+                        <td>
+                            <p-button
+                                label="Eliminar"
+                                (click)="removeFromCart(producto)"
+                                severity="danger"
+                                [outlined]="true"
+                            />
+                        </td>
                     </tr>
 
                 </ng-template>
@@ -38,11 +37,11 @@
     </p-dialog>
 </div>
 
-<!-- Formulario para crear productos -->
+<!-- Busqueda de productos -->
 <div class="mb-4 p-8 flex items-center justify-center">
     <p-card [style]="{ overflow: 'hidden' }">
-        <ng-template #title> Cree un nuevo Producto </ng-template>
-        <ng-template #subtitle> Agregue los datos para el nuevo producto: </ng-template>
+        <ng-template #title> Buscar un Producto </ng-template>
+        <ng-template #subtitle> Busque el producto necesario: </ng-template>
         <br>
         
         <p-floatlabel>
@@ -55,7 +54,46 @@
             >
             <label for="search">Buscar</label>
         </p-floatlabel>
-        <!-- debo crear productos con el label e input o buscar
+    </p-card>
+</div>
+
+<br>
+
+<!-- Crear un nuevo producto
+<div class="mb-4 p-8 flex items-center justify-center">
+    <p-card [style]="{ overflow: 'hidden' }">
+        <ng-template #title> Crear un nuevo Producto </ng-template>
+        <ng-template #subtitle> Agregue la informacion del nuevo producto: </ng-template>
+        <br>
+       <div class="card flex flex-wrap justify-center items-end gap-4">
+        <form action="">
+            <p-floatlabel variant="in">
+                <input
+                    pInputText
+                    id="title"
+                    type="text"
+                    [ngModel]="searchInput()"
+                    (ngModelChange)="searchProduct($event)"
+                >
+                <label for="search">Título</label>
+            </p-floatlabel>
+            <br>
+            <p-floatlabel variant="in">
+                <input
+                    pInputText
+                    id="category"
+                    type="text"
+                    [ngModel]="searchInput()"
+                    (ngModelChange)="searchProduct($event)"
+                >
+                <label for="search">Categoria</label>
+            </p-floatlabel>
+
+        </form>
+        
+       </div> 
+        
+        debo crear productos con el label e input o buscar
         <p-button
             label="Crear Producto"
             (click)="createProduct()"
@@ -63,11 +101,9 @@
             class="w-full"
             [outlined]="true"
             styleClass="w-full"
-        /> --> 
+        />
     </p-card>
-</div>
-
-<br>
+</div> -->
 
 <!-- Listado de productos -->
 <div class="mb-4 p-8 flex items-center justify-center">
@@ -131,8 +167,8 @@
                 class="w-full"
                 [outlined]="true"
                 styleClass="w-full"
-                [disabled]="false"
-            /><!--isNextPageNotAvailable()"-->
+                [disabled]="isNextPageNotAvailable()"
+            />
         </div>
     
     </p-card>
