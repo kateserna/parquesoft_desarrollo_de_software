@@ -36,7 +36,7 @@ interface Producto {
   styleUrl: './cart.component.scss'
 })
 export class CartComponent implements OnInit {
-  listaProductos: Producto[] = [];
+  listaProductos = signal<Producto[]>([]);
   constructor(private productosService: ProductosService) {}
 
   //variables para paginado
@@ -47,34 +47,34 @@ export class CartComponent implements OnInit {
   endIndex = 0;
 
   ngOnInit(): void {
-    this.allProducts(); //llamo a la funcion que me trae los productos
+    this.productosService.getAllProducts().subscribe((data: any) => {
+      this.listaProductos.set(data);
+    });
   }
 
   isNextPageNotAvailable(){
-    if (this.listaProductos.length === 0) {
+    if (this.listaProductos().length === 0) {
       return false; // Botón de siguiente disponible
     }
-    return this.currentPage() >= Math.floor(this.listaProductos.length / this.itemsPerPage) + 1
+    return this.currentPage() >= Math.floor(this.listaProductos().length / this.itemsPerPage) + 1
   }
 
   //me devuelve los productos de la tabla a traves del servicio
-  allProducts() {
-    this.productosService.getAllProducts().subscribe((data: any) => {
-      this.listaProductos = data;
-      this.startIndex = (this.currentPage() - 1) * this.itemsPerPage;
-      this.endIndex = this.startIndex + this.itemsPerPage;
-    });
-    return this.listaProductos.slice(this.startIndex, this.endIndex);
-  }
+  allProducts = computed(() => {
+    this.startIndex = (this.currentPage() - 1) * this.itemsPerPage;
+    this.endIndex = this.startIndex + this.itemsPerPage;
+    console.log(this.startIndex, this.endIndex);
+    return this.listaProductos().slice(this.startIndex, this.endIndex)
+  });
 
   //ir a la pagina anterior
   goToPrevPage(){
-    this.currentPage.update( currentPage => Math.max(currentPage - 1, 1))
+    this.currentPage.update(currentPage => Math.max(currentPage - 1, 1))
   }
 
   //ir a la pagina siguiente 
   goToNextPage(){
-    this.currentPage.update( currentPage => Math.min(currentPage + 1, Math.floor(this.listaProductos.length / this.itemsPerPage) + 1))
+    this.currentPage.update( currentPage => Math.min(currentPage + 1, Math.floor(this.listaProductos().length / this.itemsPerPage) + 1))
   }
   
 
@@ -116,7 +116,7 @@ export class CartComponent implements OnInit {
   //metodo para crear un producto
   addProduct() {
     const newProduct: Producto = {
-      id: this.listaProductos.length + 1,
+      id: this.listaProductos().length + 1,
       title: this.title,
       description: this.description,
       price: this.price,
@@ -127,10 +127,10 @@ export class CartComponent implements OnInit {
       category: this.category,
       thumbnail: this.thumbnail
     };
-    this.productosService.createProduct(this.listaProductos).subscribe((data: any) => {
+    this.productosService.createProduct(this.listaProductos()).subscribe((data: any) => {
       console.log("Producto creado:", data);
       /*
-      this.listaProductos.update((data) => {
+      this.listaProductos().update((data) => {
         const newProduct = {
           title: this.title,
           description: this.description,
@@ -142,7 +142,7 @@ export class CartComponent implements OnInit {
           category: this.category,
           thumbnail: this.thumbnail
         };
-        return[...this.listaProductos, newProduct];
+        return[...this.listaProductos(), newProduct];
       }
     ) //(historial:Producto[])*/
     })
@@ -158,7 +158,7 @@ export class CartComponent implements OnInit {
     const startIndex = (this.currentPage() - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     
-    return this.listaProductos
+    return this.listaProductos()
       .filter( product => product.title.toLowerCase().includes( this.searchInput().toLowerCase()))
       .slice(startIndex, endIndex);
   });
@@ -173,7 +173,7 @@ export class CartComponent implements OnInit {
 
   //--------- boton de carrito de compras y dialog (carrito de compras)-------------
   visible: boolean = false;
-  productos = signal<Producto[]>(this.listaProductos); //señal con la lista de productos
+  productos = signal<Producto[]>(this.listaProductos()); //señal con la lista de productos
   cart = signal<Producto[]>([]); //carrito de compras donde voy guardando los productos, inicia en 0
 
   totalPrice = computed(() => {
