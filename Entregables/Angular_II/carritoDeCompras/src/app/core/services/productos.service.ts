@@ -16,7 +16,6 @@ export class ProductosService {
 
   //crear un producto
   createProduct(producto: any){
-    console.log("Producto creado:", producto);
     return this.http.post(this.URLBase, producto);
   }
 

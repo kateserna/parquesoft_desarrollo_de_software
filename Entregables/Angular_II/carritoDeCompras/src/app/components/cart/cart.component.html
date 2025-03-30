@@ -1,7 +1,8 @@
-
 <!-- Carrito de compras -->
 <div class="card flex justify-center">
-    <p-button (click)="showDialog()" label="Ver carrito de compras" />
+    <div style="text-align: right">
+        <p-button (click)="showDialog()" label="Ver carrito de compras" />
+    </div>
     <p-dialog header="Carrito de Compras" [(visible)]="visible" [style]="{ width: '40rem' }">
         <span class="p-text-secondary block mb-8">Lista de productos</span>
         <h2>Total del carrito: {{ totalPrice() }}</h2>
@@ -31,29 +32,9 @@
             </p-table>
         </div>
         <div class="flex justify-end gap-2">
-            <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-            <p-button label="Save" (click)="visible = false" />
+            <p-button label="Cerrar" severity="secondary" (click)="visible = false" />
         </div>
     </p-dialog>
-</div>
-
-<!-- Busqueda de productos -->
-<div class="mb-4 p-8 flex items-center justify-center">
-    <p-card [style]="{ overflow: 'hidden' }">
-        <ng-template #title> Buscar un Producto </ng-template>
-        <ng-template #subtitle> Busque el producto necesario: </ng-template>
-        <br>
-        <p-floatlabel>
-            <input
-                pInputText
-                id="search"
-                type="text"
-                [ngModel]="searchInput()"
-                (ngModelChange)="searchProduct($event)"
-            >
-            <label for="search">Buscar</label>
-        </p-floatlabel>
-    </p-card>
 </div>
 
 <br>
@@ -65,17 +46,29 @@
         <ng-template #subtitle> Agregue la información del nuevo producto: </ng-template>
         <br>
         <div class="flex-auto items-end">
-            <!--
-            <form [value]="">
+            <form (ngSubmit)="addProduct()">
                 <div class="grid grid-cols-2 gap-4">
                     <p-floatlabel variant="in">
                         <input
                             pInputText
-                            id="title"
+                            id="id"
+                            name="id"
                             type="text"
                             autocomplete="off"
-                            [ngModel]="title"
-                            (ngModelChange)="searchProduct($event)"
+                            [(ngModel)]="id"
+                            (ngModelChange)="setId($event)"
+                        >
+                        <label for="id">Id</label>
+                    </p-floatlabel>
+                    <p-floatlabel variant="in">
+                        <input
+                            pInputText
+                            id="title"
+                            name="title"
+                            type="text"
+                            autocomplete="off"
+                            [(ngModel)]="title2"
+                            (ngModelChange)="setTitle($event)"
                         >
                         <label for="title">Título</label>
                     </p-floatlabel>
@@ -83,10 +76,11 @@
                         <input
                             pInputText
                             id="description"
+                            name="description"
                             type="text"
                             autocomplete="off"
-                            [ngModel]="description"
-                            (ngModelChange)="searchProduct($event)"
+                            [(ngModel)]="description"
+                            (ngModelChange)="setDescription($event)"
                         >
                         <label for="description">Descripción</label>
                     </p-floatlabel>
@@ -94,10 +88,12 @@
                         <input
                             pInputText
                             id="price"
-                            type="text"
+                            name="price"
+                            type="number"
+                            min="0"
                             autocomplete="off"
-                            [ngModel]="price"
-                            (ngModelChange)="searchProduct($event)"
+                            [(ngModel)]="price"
+                            (ngModelChange)="setPrice($event)"
                         >
                         <label for="price">Precio</label>
                     </p-floatlabel>
@@ -105,21 +101,27 @@
                         <input
                             pInputText
                             id="discountPercentage"
-                            type="text"
+                            name="discountPercentage"
+                            type="number"
+                            min="0"
+                            step="1"
                             autocomplete="off"
-                            [ngModel]="discountPercentage"
-                            (ngModelChange)="searchProduct($event)"
+                            [(ngModel)]="discountPercentage"
+                            (ngModelChange)="setDiscountPercentage($event)"
                         >
-                        <label for="discountPercentage">Procentaje de descuento</label>
+                        <label for="discountPercentage">Porcentaje de descuento</label>
                     </p-floatlabel>
                     <p-floatlabel variant="in">
                         <input
                             pInputText
                             id="rating"
-                            type="text"
+                            name="rating"
+                            type="number"
+                            min="0"
+                            step="0.1"
                             autocomplete="off"
-                            [ngModel]="rating"
-                            (ngModelChange)="searchProduct($event)"
+                            [(ngModel)]="rating"
+                            (ngModelChange)="setRating($event)"
                         >
                         <label for="rating">Calificación</label>
                     </p-floatlabel>
@@ -127,10 +129,13 @@
                         <input
                             pInputText
                             id="stock"
-                            type="text"
+                            name="stock"
+                            type="number"
+                            min="0"
+                            step="1"
                             autocomplete="off"
-                            [ngModel]="stock"
-                            (ngModelChange)="searchProduct($event)"
+                            [(ngModel)]="stock"
+                            (ngModelChange)="setStock($event)"
                         >
                         <label for="stock">Stock</label>
                     </p-floatlabel>
@@ -138,10 +143,11 @@
                         <input
                             pInputText
                             id="brand"
+                            name="brand"
                             type="text"
                             autocomplete="off"
-                            [ngModel]="brand"
-                            (ngModelChange)="searchProduct($event)"
+                            [(ngModel)]="brand"
+                            (ngModelChange)="setBrand($event)"
                         >
                         <label for="brand">Marca</label>
                     </p-floatlabel>
@@ -149,10 +155,11 @@
                         <input
                             pInputText
                             id="category"
+                            name="category"
                             type="text"
                             autocomplete="off"
-                            [ngModel]="category"
-                            (ngModelChange)="searchProduct($event)"
+                            [(ngModel)]="category"
+                            (ngModelChange)="setCategory($event)"
                         >
                         <label for="category">Categoria</label>
                     </p-floatlabel>
@@ -160,28 +167,52 @@
                         <input
                             pInputText
                             id="thumbnail"
-                            type="text"
+                            name="thumbnail"
+                            type="url"
                             autocomplete="off"
-                            [ngModel]="thumbnail"
-                            (ngModelChange)="searchProduct($event)"
+                            [(ngModel)]="thumbnail"
+                            (ngModelChange)="setThumbnail($event)"
                         >
                         <label for="thumbnail">url imagen</label>
                     </p-floatlabel>
                 </div>
-                debo crear productos con el label e input o buscar
+                <!--debo crear productos con el label e input o buscar-->
                 <p-button
                     label="Crear Producto"
                     severity="success"
                     class="w-full"
                     [outlined]="true"
                     styleClass="w-full"
-                    (click)="createProduct()"
+                    type="submit"
                 />
             </form>
-            -->
         </div>
     </p-card>
 </div>
+
+<br>
+
+<!-- Busqueda de productos -->
+<div class="mb-4 p-8 flex items-center justify-center" >
+    <p-card [style]="{ overflow: 'hidden'}">
+        <ng-template #title> Buscar un Producto </ng-template>
+        <ng-template #subtitle> Busque el producto necesario: </ng-template>
+        <br>
+        <p-floatlabel>
+            <input
+                pInputText
+                id="search"
+                name="search"
+                type="text"
+                [(ngModel)]="search"
+                (ngModelChange)="searchProduct($event)"
+            >
+            <label for="search">Buscar</label>
+        </p-floatlabel>
+    </p-card>
+</div>
+
+<br>
 
 <!-- Listado de productos -->
 <div class="mb-4 p-8 flex items-center justify-center">

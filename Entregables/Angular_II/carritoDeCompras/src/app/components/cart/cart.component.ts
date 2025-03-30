@@ -9,7 +9,7 @@ import { TableModule } from 'primeng/table';
 import { ProductosService } from '../../core/services/productos.service';
 
 interface Producto {
-  id: number,
+  id: string,
   title: string,
   description: string,
   price: number,
@@ -63,8 +63,9 @@ export class CartComponent implements OnInit {
   allProducts = computed(() => {
     this.startIndex = (this.currentPage() - 1) * this.itemsPerPage;
     this.endIndex = this.startIndex + this.itemsPerPage;
-    console.log(this.startIndex, this.endIndex);
-    return this.listaProductos().slice(this.startIndex, this.endIndex)
+    return this.listaProductos()
+      .filter(product => product.title.toLowerCase().includes(this.search().toLowerCase()))
+      .slice(this.startIndex, this.endIndex);
   });
 
   //ir a la pagina anterior
@@ -77,33 +78,9 @@ export class CartComponent implements OnInit {
     this.currentPage.update( currentPage => Math.min(currentPage + 1, Math.floor(this.listaProductos().length / this.itemsPerPage) + 1))
   }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   //--------- formulario para crear producto -------------
-  title = ('');
+  id = ('');
+  title2 = ('');
   description = ('');
   price = (0);
   discountPercentage = (0);
@@ -113,11 +90,55 @@ export class CartComponent implements OnInit {
   category = ('');
   thumbnail = ('');
 
+  setId(id: string) {
+    this.id = id;
+  }
+  setTitle(title: string) {
+    this.title2 = title;
+  }
+  setDescription(description: string) {
+    this.description = description;
+  }
+  setPrice(price: number) {
+    this.price = price;
+  }
+  setDiscountPercentage(discountPercentage: number) {
+    this.discountPercentage = discountPercentage;
+  }
+  setRating(rating: number) {
+    this.rating = rating;
+  }
+  setStock(stock: number) {
+    this.stock = stock;
+  }
+  setBrand(brand: string) {
+    this.brand = brand;
+  }
+  setCategory(category: string) {
+    this.category = category;
+  }
+  setThumbnail(thumbnail: string) {
+    this.thumbnail = thumbnail;
+  }
+  //metodo para limpiar el formulario
+  clearForm() {
+    this.id = '';
+    this.title2 = '';
+    this.description = '';
+    this.price = 0;
+    this.discountPercentage = 0;
+    this.rating = 0;
+    this.stock = 0;
+    this.brand = '';
+    this.category = '';
+    this.thumbnail = '';
+  }
+
   //metodo para crear un producto
   addProduct() {
-    const newProduct: Producto = {
-      id: this.listaProductos().length + 1,
-      title: this.title,
+    const newProduct : Producto= {
+      id: this.id,
+      title: this.title2,
       description: this.description,
       price: this.price,
       discountPercentage: this.discountPercentage,
@@ -127,45 +148,27 @@ export class CartComponent implements OnInit {
       category: this.category,
       thumbnail: this.thumbnail
     };
-    this.productosService.createProduct(this.listaProductos()).subscribe((data: any) => {
-      console.log("Producto creado:", data);
-      /*
-      this.listaProductos().update((data) => {
-        const newProduct = {
-          title: this.title,
-          description: this.description,
-          price: this.price,
-          discountPercentage: this.discountPercentage,
-          rating: this.rating,
-          stock: this.stock,
-          brand: this.brand,
-          category: this.category,
-          thumbnail: this.thumbnail
-        };
-        return[...this.listaProductos(), newProduct];
+    //verifico que el resultado de la peticion sea correcto
+    const result = this.productosService.createProduct(newProduct).subscribe({
+      next: (data: any) => {
+      this.listaProductos.update((historial: Producto[]) => {
+        return [...historial, newProduct];
+        }
+      );
+      alert("Producto creado correctamente");
+      this.clearForm(); //limpia el formulario
+      },
+      error: (err: any) => {
+      alert("Error al crear el producto: " + err.error.message);
       }
-    ) //(historial:Producto[])*/
-    })
+    });
   }
 
   //--------- boton de busqueda y filtrado -------------
+  search = signal('');
 
-  //eliminar variable no se va a usar
-  searchInput = signal(''); //señal del campo de busqueda
-
-  //eliminar metodo: no se usa
-  filterProducts = computed(() => {
-    const startIndex = (this.currentPage() - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    
-    return this.listaProductos()
-      .filter( product => product.title.toLowerCase().includes( this.searchInput().toLowerCase()))
-      .slice(startIndex, endIndex);
-  });
-
-  //eliminar metodo: no se usa
   searchProduct(searchText: string) {
-    this.searchInput.set(searchText);
+    this.search.set(searchText);
     if (this.currentPage() > this.firstPage) { 
       this.currentPage.set(this.firstPage);
     }
